@@ -8,7 +8,8 @@ library(PerformanceAnalytics)
 # a collection of stocks
 mystocks <- c("AAPL", "ADBE", "AMRC", "CW", "DHR", "EWJ", "F", "FE", "MSFT", 
               "FMCKJ", "GE", "IWD", "MCHI", "PPA", "PYPL", "SQ", "TMO", 
-              "WMT", "XOM", "ZM", "CSCO")
+              "WMT", "XOM", "ZM", "CSCO", "WDC", "GLD", "NOVA", "IQ", "AMD", 
+              "SPY", "INDA", "UAL", "C", "JNJ")
 
 # store data in a new environment
 stocksEnv <- new.env()
@@ -18,14 +19,25 @@ getSymbols(mystocks, env = stocksEnv, from = "2020-01-01", src = "yahoo")
 for (stock in mystocks) {
   candleChart(stocksEnv[[stock]], name = stock)
 }
+candleChart(stocksEnv[["MSFT"]])
+
+# ETFs data and canle charts
+myETFs <- c("EWJ", "IWD", "PPA", "GLD", "SPY", "INDA", "AIA", "MCHI")
+stocksEnv2 <- new.env()
+getSymbols(myETFs, env = stocksEnv2, from = "2020-01-01", src = "yahoo")
+
+
+for (stock in myETFs) {
+  candleChart(stocksEnv2[[stock]], name = stock)
+}
 
 # read data
 getSymbols(mystocks, from = "2019-07-01", src = "yahoo")
 
-getSymbols("CAH", from = "2019-07-01", src = "yahoo")
+getSymbols("SPY", from = "2020-07-01", src = "yahoo")
 
 # Daily return and charts -------------------------------------------------
-selected_stock <-CAH
+selected_stock <-SPY
 dret <- dailyReturn(selected_stock)
 head(dret, n = 5)
 tail(dret, n = 5)
