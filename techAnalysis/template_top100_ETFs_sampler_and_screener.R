@@ -3,14 +3,16 @@
 library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
+library(dplyr)
 companylist <- read_csv("ETFsTop100.csv") # prepared in excel
 head(companylist)
 stockSymbols <- companylist["Symbol"]
 
 numberStocks <- nrow(stockSymbols)
 idx <- sample(1:numberStocks, 10)
-idx
-sampledStocks <- stockSymbols[, "Symbol"] # add idx if do sampling
+idx_no_bond <- !grepl('Bond', companylist$Name) & !grepl('Securities', companylist$Name)
+
+sampledStocks <- stockSymbols[idx_no_bond, "Symbol"] # add idx with sampling
 sampledStocks
 
 stocksEnv <- new.env()
