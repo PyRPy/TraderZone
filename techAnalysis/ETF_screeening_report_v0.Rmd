@@ -1,0 +1,177 @@
+---
+title: "ETF Screening Report"
+author: "ETF Reseacher"
+date: "December 25, 2020"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Preparation
+```{r message=FALSE, warning=FALSE}
+# https://etfdb.com/compare/market-cap/
+
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+library(dplyr)
+```
+### Import ETF List
+```{r message=FALSE, warning=FALSE}
+companylist <- read_csv("etfdb_full_list.csv") # prepared in excel
+colnames(companylist) <- c("Symbol", "ETF_name", "Asset_class", 
+                           "Total_assets", "YTD_Price_Change", 
+                           "Daily_Volume", "Close_price", "Pro")
+head(companylist)
+```
+### Clean Up the Table
+
+* What types of ETFs
+```{r}
+companylist["Pro"] <- NULL
+companylist$Total_assets <- as.numeric(gsub('[$,]', '', 
+                                            companylist$Total_assets))
+companylist$Asset_class <- as.factor(companylist$Asset_class)
+
+table(companylist$Asset_class)
+```
+### Select ETFs with Total Assets >= $100 Million
+
+* How many ETFs have total assets higher than 100 million USD
+```{r}
+companylist <- companylist %>% 
+  filter(Total_assets >= 100 & Asset_class == "Equity")
+nrow(companylist)
+```
+## AI ETFs
+```{r}
+stockSymbols <- companylist["Symbol"]
+idx_ai <- grepl('Artificial', companylist$ETF_name) 
+sampledStocks <- stockSymbols[idx_ai, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = "2020-01-01", src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx_ai, ]
+companylist_idx[, 1:2]
+```
+
+```{r}
+for (stock in sampledStocks$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than 0.05
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < 0.05 && as.numeric(pret) > 0.08) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+## Cyber Security ETFs
+```{r}
+idx_cyber <- grepl('Cyber', companylist$ETF_name)
+sampledStocks <- stockSymbols[idx_cyber, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = "2020-01-01", src = "yahoo")
+```
+
+```{r}
+companylist_idx <- companylist[idx_cyber, ]
+companylist_idx[, 1:2]
+```
+```{r}
+for (stock in sampledStocks$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+```
+
+### Check Returns and Standard Deviations
+
+* Daily sd is less than 0.05
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < 0.05 && as.numeric(pret) > 0.08) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+## Clean Energy ETFs
+```{r message=FALSE, warning=FALSE}
+idx_clean <- grepl('Clean', companylist$ETF_name) | 
+  grepl('Solar', companylist$ETF_name) | 
+  grepl('Battery', companylist$ETF_name)
+sampledStocks <- stockSymbols[idx_clean, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = "2020-01-01", src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx_clean, ]
+companylist_idx[, 1:2]
+```
+
+```{r}
+for (stock in sampledStocks$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+```
+
+### Check Returns and Standard Deviations
+
+* Daily sd is less than 0.05
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < 0.05 && as.numeric(pret) > 0.08) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
