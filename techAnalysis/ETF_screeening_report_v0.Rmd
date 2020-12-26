@@ -2,7 +2,11 @@
 title: "ETF Screening Report"
 author: "ETF Reseacher"
 date: "December 25, 2020"
-output: word_document
+output:
+  word_document: default
+  pdf_document: default
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -45,8 +49,8 @@ companylist <- companylist %>%
   filter(Total_assets >= 100 & Asset_class == "Equity")
 nrow(companylist)
 ```
-## AI ETFs
-```{r}
+## Artificial Intelligence (AI) ETFs
+```{r message=FALSE, warning=FALSE}
 stockSymbols <- companylist["Symbol"]
 idx_ai <- grepl('Artificial', companylist$ETF_name) 
 sampledStocks <- stockSymbols[idx_ai, "Symbol"]
@@ -59,11 +63,6 @@ companylist_idx <- companylist[idx_ai, ]
 companylist_idx[, 1:2]
 ```
 
-```{r}
-for (stock in sampledStocks$Symbol) {
-  candleChart(stocksEnv[[stock]], name = stock)
-}
-```
 ### Check Returns and Standard Deviations
 
 * Daily sd is less than 0.05
@@ -87,6 +86,12 @@ for (stock in sampledStocks$Symbol) {
 goodCandidate
 
 ```
+```{r}
+# store the sampled ETFs
+ETFs_list_all <- data.frame()
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
 
 ## Cyber Security ETFs
 ```{r}
@@ -101,11 +106,6 @@ getSymbols(sampledStocks$Symbol, env = stocksEnv,
 companylist_idx <- companylist[idx_cyber, ]
 companylist_idx[, 1:2]
 ```
-```{r}
-for (stock in sampledStocks$Symbol) {
-  candleChart(stocksEnv[[stock]], name = stock)
-}
-```
 
 ### Check Returns and Standard Deviations
 
@@ -130,6 +130,10 @@ for (stock in sampledStocks$Symbol) {
 goodCandidate
 
 ```
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
 
 ## Clean Energy ETFs
 ```{r message=FALSE, warning=FALSE}
@@ -146,12 +150,6 @@ companylist_idx <- companylist[idx_clean, ]
 companylist_idx[, 1:2]
 ```
 
-```{r}
-for (stock in sampledStocks$Symbol) {
-  candleChart(stocksEnv[[stock]], name = stock)
-}
-```
-
 ### Check Returns and Standard Deviations
 
 * Daily sd is less than 0.05
@@ -175,3 +173,63 @@ for (stock in sampledStocks$Symbol) {
 goodCandidate
 
 ```
+
+```{r}
+# store the list
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+## Aerospace and Defence ETFs
+```{r message=FALSE, warning=FALSE}
+idx_aero <- grepl('Aerospace', companylist$ETF_name) | 
+  grepl('Defence', companylist$ETF_name)
+sampledStocks <- stockSymbols[idx_aero, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = "2020-01-01", src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx_aero, ]
+companylist_idx[, 1:2]
+```
+
+### Check Returns and Standard Deviations
+
+* Daily sd is less than 0.1
+* Accumulative return > 0%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < 0.1 && as.numeric(pret) > 0) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+# store the list
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+## Appendix: Candle Charts for Sampled ETFs
+```{r message=FALSE, warning=FALSE, fig.width=7}
+stocksEnv <- new.env()
+getSymbols(ETFs_list_all$Symbol, env = stocksEnv, 
+           from = "2020-07-01", src = "yahoo")
+
+for (stock in ETFs_list_all$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+```
+
