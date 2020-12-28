@@ -1506,7 +1506,45 @@ goodCandidate
 ```{r}
 ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
 ```
+## Game
+```{r}
+idx <- companylist$Label == "Game"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = "2020-01-01", src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
 
+* Daily sd is less than 0.05
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < 0.05 && as.numeric(pret) > 0.08) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
 
 ## Appendix: Candle Charts for Sampled ETFs
 ```{r echo=FALSE, fig.width=7, message=FALSE, warning=FALSE}
