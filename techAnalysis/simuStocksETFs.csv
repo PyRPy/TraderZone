@@ -1,0 +1,139 @@
+Symbol,ETF Name,Asset Class,Total Assets ($MM),YTD Price Change,Avg. Daily Volume,Previous Closing Price,1-Day Change,Label
+BLOK,Amplify Transformational Data Sharing ETF,Equity,339.9,0.792,156134,33.6,-0.0207,Blockchain
+BLCN,Reality Shares Nasdaq NexGen Economy ETF,Equity,183.3,0.5593,70842,39.57,-0.0035,Blockchain
+LEGR,First Trust Indxx Innovative Transaction & Process ETF,Equity,53.52,0.1673,7405,36.98,-0.0024,Blockchain
+GFIN,Goldman Sachs Finance Reimagined ETF,Equity,50.45,0.1394,7153,67.11,0.0021,Blockchain
+KOIN,Innovation Shares NextGen Protocol ETF,Equity,19.36,0.3047,9558,37,-0.0013,Blockchain
+QQQ,Invesco QQQ,Equity,149662,0.4664,37415434,309.56,,AI
+VGT,Vanguard Information Technology ETF,Equity,41058.4,0.4567,578957,352.88,,AI
+XLK,Technology Select Sector SPDR Fund,Equity,37406,0.4255,8403583,129.06,,AI
+FDN,First Trust Dow Jones Internet Index,Equity,11302.1,0.5543,387315,216.24,,AI
+IYW,iShares U.S. Technology ETF,Equity,6739.49,0.4746,427755,85.18,,AI
+FTEC,Fidelity MSCI Information Technology Index ETF,Equity,5204.05,0.4545,306289,104.24,,AI
+IXN,iShares Global Tech ETF,Equity,4892.41,0.4204,76708,296.75,,AI
+IGM,iShares Expanded Tech Sector ETF,Equity,3151.78,0.4411,42511,347.44,,AI
+XT,iShares Exponential Technologies ETF,Equity,3074.42,0.3396,201146,56.77,,AI
+BOTZ,Global X Robotics & Artificial Intelligence Thematic ETF,Equity,2345.82,0.511,1039748,32.96,,AI
+KOMP,SPDR S&P Kensho New Economies Composite ETF,Equity,1817.34,0.6166,152778,57.78,,AI
+ROBO,ROBO Global Robotics and Automation Index ETF,Equity,1680.67,0.444,144218,60.65,,AI
+ARKQ,ARK Industrial Innovation ETF,Equity,1642.4,1.0641,405978,76.66,,AI
+QYLD,Global X NASDAQ 100 Covered Call ETF,Equity,1607.51,0.0782,609597,22.84,,AI
+PNQI,Invesco NASDAQ Internet ETF,Equity,1024.7,0.6161,23386,228.55,,AI
+SKYY,First Trust ISE Cloud Computing Index Fund,Technology,6244.62,0.6075,366851,96.87,-0.0057,Software
+IGV,iShares Expanded Tech-Software Sector ET,Technology,6070.7,0.5557,787071,360.38,0.0005,Software
+HACK,ETFMG Prime Cyber Security ETF,Technology,2033.57,0.4349,222475,58.37,-0.0031,Software
+CLOU,Global X Cloud Computing ETF,Technology,1587.52,0.8169,1371689,28.61,-0.0059,Software
+WCLD,WisdomTree Cloud Computing Fund,Technology,1301.71,1.1918,468508,56,-0.0027,Software
+SOXX,iShares PHLX Semiconductor ETF,Technology,4843.46,0.5028,509392,373.12,0.0089,Semiconductor
+SMH,VanEck Vectors Semiconductor ETF,Technology,3841.04,0.53,2496865,214.87,0.0107,Semiconductor
+SOXL,Direxion Daily Semiconductor Bull 3x Shares,Technology,1880.17,0.6214,802151,444.81,0.0289,Semiconductor
+XLE,Energy Select Sector SPDR Fund,Energy,13426.8,-0.3228,33583216,38.12,-0.0052,OilGas
+VDE,Vanguard Energy ETF,Energy,3363.96,-0.3264,1061306,52.16,-0.0084,OilGas
+XOP,SPDR S&P Oil & Gas Exploration & Production ETF,Energy,2334.76,-0.3586,8189271,59,-0.0145,OilGas
+IXC,iShares Global Energy ETF,Energy,1003.17,-0.3063,1016443,20.42,-0.0029,OilGas
+GUNR,FlexShares Morningstar Global Upstream Natural Resources Index Fund,Materials,3476.15,0.0026,680138,32.48,0.0015,NaturalResource
+GNR,SPDR S&P Global Natural Resources ETF,Materials,1266.45,0.0001,158877,44.8,0.0018,NaturalResource
+AMLP,Alerian MLP ETF,Energy,4276.75,-0.2081,3361971,26.17,-0.0095,MLP
+AMJ,JPMorgan Alerian MLP Index ETN,Energy,1693.23,-0.353,1283988,14.11,-0.0084,MLP
+IHI,iShares U.S. Medical Devices ETF,Healthcare,9029.99,0.2246,171480,322.77,0.0046,MedicalDevice
+XLC,Communication Services Select Sector SPDR Fund,Consumer Discretionary,11868.7,0.246,3157874,66.26,0.0011,Media
+LIT,Global X Lithium ETF,Materials,1798.42,1.1778,612785,59.24,-0.008,Battery
+FDN,First Trust Dow Jones Internet Index,Technology,11302.1,0.5543,387315,216.24,-0.0034,Internet
+ARKW,ARK Next Generation Internet ETF,Technology,5496.83,1.6286,939543,151.38,-0.0079,Internet
+KWEB,KraneShares CSI China Internet ETF,Technology,3606.04,0.5226,2139760,74.12,-0.034,Internet
+EMQQ,Emerging Markets Internet & Ecommerce ETF,Technology,1469,0.7394,284820,61.4,-0.0193,Internet
+PNQI,Invesco NASDAQ Internet ETF,Technology,1024.7,0.6161,23386,228.55,-0.0127,Internet
+CIBR,First Trust NASDAQ CEA Cybersecurity ETF,Technology,3146.06,0.5314,535572,45.18,-0.0037,InternetSecurity
+IGF,iShares Global Infrastructure ETF,Utilities,3089.85,-0.0738,460737,43.3,0.0021,Infrastructure
+NFRA,FlexShares STOXX Global Broad Infrastructure Index Fund,Utilities,2086.71,0.0112,89691,53.17,0.0017,Infrastructure
+EMLP,First Trust North American Energy Infrastructure Fund,Utilities,1725.49,-0.1493,634558,20.82,-0.0119,Infrastructure
+ITB,iShares U.S. Home Construction ETF,Materials,2096.8,0.3139,3298345,58,0.0163,Home
+XHB,SPDR S&P Homebuilders ETF,Materials,1315.72,0.3181,2766005,59.37,0.0106,Home
+IHF,iShares U.S. Healthcare Providers ETF,Healthcare,1112.91,0.1617,30577,231.68,-0.0013,Healthcare
+GDX,VanEck Vectors Gold Miners ETF,Materials,16338.8,0.2369,23271948,36.03,0.0031,GoldMine
+GDXJ,VanEck Vectors Junior Gold Miners ETF,Materials,6196.57,0.2825,7769849,53.35,0.0013,GoldMine
+NUGT,Direxion Daily Gold Miners Bull 2X Shares,Materials,1161.08,-0.6024,2823826,69.27,0.0041,GoldMine
+ESPO,VanEck Vectors Video Gaming and eSports ETF,Consumer Discretionary,711.12,0.8055,158468,68.72,-0.0085,Game
+HERO,Global X Video Games & Esports ETF,Consumer Discretionary,569.35,0.8837,209657,30.83,0,Game
+BETZ,Roundhill Sports Betting & iGaming ETF,Consumer Discretionary,200.56,N/A,199569,26.32,-0.0008,Game
+BJK,VanEck Vectors Gaming ETF,Consumer Discretionary,75.98,0.1295,26860,46.94,0.0041,Game
+NERD,Roundhill BITKRAFT Esports & Digital Entertainment ETF,Consumer Discretionary,73.98,0.8671,36818,29.99,-0.0086,Game
+FAS,Direxion Daily Financial Bull 3X Shares,Financials,2093.4,-0.3832,2861820,57.67,0.0014,FinService
+IYG,iShares U.S. Financial Services ETF,Financials,1176.2,-0.0148,178677,146.46,0.0021,FinService
+GRID,First Trust NASDAQ Clean Edge Smart Grid Infrastructure Index Fund,Materials,135.53,0.4676,18769,80.02,-0.0002,SmartGrid
+IYC,iShares US Consumer Services ETF,Consumer Discretionary,1231.42,0.2278,98125,69.58,0.0004,Consumer
+ICLN,iShares Global Clean Energy ETF,Energy,4491.24,1.3712,4462911,27.71,-0.0018,CleanEnergy
+PBW,Invesco WilderHill Clean Energy ETF,Energy,2263.25,2.1711,506043,107.57,-0.0098,CleanEnergy
+QCLN,First Trust NASDAQ Clean Edge Green Energy Index Fund,Energy,1981.04,1.8458,579495,70.45,-0.0056,CleanEnergy
+XLU,Utilities Select Sector SPDR Fund,Utilities,11891.9,-0.0188,11914345,61.21,0.0071,Utilities
+VPU,Vanguard Utilities ETF,Utilities,4227.01,-0.0311,189292,133.94,0.006,Utilities
+FUTY,Fidelity MSCI Utilities Index ETF,Utilities,1097.92,-0.0298,221162,39.69,0.0063,Utilities
+VOX,Vanguard Communication Services ETF,Telecom,3224.4,0.2741,139523,118.61,0.0007,Telecom
+QQQ,Invesco QQQ,Technology,149662,0.4664,37415432,309.56,0.0044,Technology
+VGT,Vanguard Information Technology ETF,Technology,41058.4,0.4567,578957,352.88,0.0066,Technology
+XLK,Technology Select Sector SPDR Fund,Technology,37406,0.4255,8403583,129.06,0.0066,Technology
+ARKK,ARK Innovation ETF,Technology,19108.8,1.6579,3295615,133.03,-0.0143,Technology
+IYW,iShares U.S. Technology ETF,Technology,6739.49,0.4746,427755,85.18,0.0042,Technology
+FTEC,Fidelity MSCI Information Technology Index ETF,Technology,5204.05,0.4545,306289,104.24,0.0067,Technology
+IXN,iShares Global Tech ETF,Technology,4892.41,0.4204,76708,296.75,0.0087,Technology
+QTEC,First Trust NASDAQ 100 Technology,Technology,3329.65,0.3845,138415,137.88,0.0042,Technology
+IGM,iShares Expanded Tech Sector ETF,Technology,3151.78,0.4411,42511,347.44,0.0035,Technology
+XT,iShares Exponential Technologies ETF,Technology,3074.42,0.3396,201146,56.77,0.0011,Technology
+FXL,First Trust Technology AlphaDEX Fund,Technology,2638.36,0.5621,111678,113.28,0.001,Technology
+RYT,Invesco S&P 500® Equal Weight Technology ETF,Technology,2324.51,0.2883,37158,250.87,0.0049,Technology
+TECL,Direxion Daily Technology Bull 3X Shares,Technology,1977.97,0.6549,378435,397,0.0224,Technology
+ROBO,ROBO Global Robotics and Automation Index ETF,Technology,1680.67,0.444,144218,60.65,-0.0016,Technology
+TDIV,First Trust NASDAQ Technology Dividend Index Fund,Technology,1352.96,0.1529,80969,48.92,-0.0016,Technology
+CQQQ,Invesco China Technology ETF,Technology,1344.16,0.5049,195545,78.75,-0.0112,Technology
+IPAY,ETFMG Prime Mobile Payments ETF,Technology,1021.39,0.3251,128798,65.67,0.0103,Technology
+FINX,Global X FinTech Thematic ETF,Technology,1018.15,0.5455,189042,46.95,0.003,Technology
+VNQ,Vanguard Real Estate Index Fund,Real Estate,30655.6,-0.0728,4161667,83.88,-0.0072,RealEstate
+IYR,iShares U.S. Real Estate ETF,Real Estate,5328.63,-0.0674,5943358,84.29,0.0079,RealEstate
+VNQI,Vanguard Global ex-U.S. Real Estate Index Fund ETF,Real Estate,4883.19,-0.0841,516151,53.62,0.0037,RealEstate
+SCHH,Schwab US REIT ETF,Real Estate,4536.01,-0.1623,520017,37.46,0.0075,RealEstate
+REET,iShares Global REIT ETF,Real Estate,2399.46,-0.1158,542720,23.64,0.0085,RealEstate
+XLRE,Real Estate Select Sector SPDR Fund,Real Estate,2187.57,-0.0393,3901591,35.91,0.0098,RealEstate
+ICF,iShares Cohen & Steers REIT ETF,Real Estate,1906.89,-0.0749,135694,52.87,0.0084,RealEstate
+USRT,iShares Core U.S. REIT ETF,Real Estate,1567.42,-0.0928,195763,47.77,0.0076,RealEstate
+RWO,SPDR DJ Wilshire Global Real Estate ETF,Real Estate,1540.41,-0.1177,143466,43.8,0.0053,RealEstate
+RWR,SPDR Dow Jones REIT ETF,Real Estate,1336.64,-0.1277,145238,85.36,0.0092,RealEstate
+FREL,Fidelity MSCI Real Estate Index ETF,Real Estate,1169.36,-0.0619,374332,25.06,0.0089,RealEstate
+SRVR,Pacer Benchmark Data & Infrastructure Real Estate SCTR ETF,Real Estate,1065.89,0.0985,292089,35.17,0.0034,RealEstate
+XLB,Materials Select Sector SPDR ETF,Materials,5167.45,0.1911,6161905,71.58,0.0063,Materials
+VAW,Vanguard Materials ETF,Materials,2218.44,0.1834,93462,155.52,0.0054,Materials
+XLI,Industrial Select Sector SPDR Fund,Industrials,16066.5,0.1021,11081286,88,0.0001,Industrials
+VIS,Vanguard Industrial ETF,Industrials,3821.53,0.1196,132475,169.41,0.0006,Industrials
+IYJ,iShares U.S. Industrials ETF,Industrials,1245.05,0.1687,100177,96.82,0.0034,Industrials
+XLV,Health Care Select Sector SPDR Fund,Healthcare,25056.6,0.1132,8449672,111.47,0.0029,HealthcareG
+VHT,Vanguard Healthcare ETF,Healthcare,13046.3,0.1746,239652,222.16,0.0014,HealthcareG
+IYH,iShares U.S. Healthcare ETF,Healthcare,2471.31,0.1407,35474,242.74,0.001,HealthcareG
+FHLC,Fidelity MSCI Health Care Index ETF,Healthcare,2426.46,0.1727,209200,57.33,0.0024,HealthcareG
+IXJ,iShares Global Healthcare ETF,Healthcare,2416.86,0.1056,128574,74.97,0.0016,HealthcareG
+FXH,First Trust Health Care AlphaDEX Fund,Healthcare,1455.48,0.2797,68011,107.75,-0.0012,HealthcareG
+XLF,Financial Select Sector SPDR Fund,Financials,24145.4,-0.0351,56606116,28.95,0.0014,Financials
+VFH,Vanguard Financials ETF,Financials,7161.53,-0.0354,611762,71.68,0.0004,Financials
+IYF,iShares U.S. Financials ETF,Financials,1427.24,-0.0328,273195,65.41,0.0043,Financials
+EUFN,iShares MSCI Europe Financials ETF,Financials,1035.05,-0.084,1626717,17.57,0.0029,Financials
+XLP,Consumer Staples Select Sector SPDR Fund,Consumer Staples,13335.7,0.0891,8631400,66.72,0.005,Staples
+VDC,Vanguard Consumer Staples ETF,Consumer Staples,5651.79,0.0976,103542,172.2,0.0043,Staples
+IEV,iShares Europe ETF,Consumer Staples,1593.6,0.0372,234635,47.76,0.0019,Staples
+XLY,Consumer Discretionary Select Sector SPDR Fund,Consumer Discretionary,18176.7,0.2729,3193858,157.88,0.0021,ConsumerD
+VCR,Vanguard Consumer Discretionary ETF,Consumer Discretionary,4688.96,0.4688,103763,272.44,0.0019,ConsumerD
+FXD,First Trust Consumer Discretionary AlphaDEX Fund,Consumer Discretionary,1333.89,0.1337,92426,51.11,-0.0004,ConsumerD
+FDIS,Fidelity MSCI Consumer Discretionary Index ETF,Consumer Discretionary,1264.3,0.4787,171051,70.72,0.0007,ConsumerD
+IBB,iShares Nasdaq Biotechnology ETF,Healthcare,10727.6,0.2986,2891255,156.12,-0.0076,Biotechnology
+ARKG,ARK Genomic Revolution ETF,Healthcare,7911.67,2.0758,2088151,103.1,-0.0201,Biotechnology
+XBI,SPDR S&P Biotech ETF,Healthcare,7220.59,0.5805,4334504,150.01,-0.0075,Biotechnology
+FBT,First Trust Amex Biotechnology Index,Healthcare,2119.6,0.1691,67454,173.87,-0.0037,Biotechnology
+KBE,SPDR S&P Bank ETF,Financials,2557.25,-0.0954,3237918,41.46,-0.0058,Banks
+KBWB,Invesco KBW Bank ETF,Financials,1309.99,-0.1206,972574,49.48,-0.0044,Banks
+JETS,U.S. Global Jets ETF,Industrials,2908.6,-0.2966,5633242,22.16,-0.0036,Airlines
+ITA,iShares U.S. Aerospace & Defense ETF,Industrials,2915.13,-0.1417,339023,94.19,-0.0065,Aerospace
+XAR,SPDR S&P Aerospace & Defense ETF,Industrials,1262.92,0.0489,99592,113.35,-0.0054,Aerospace
+TAN,Invesco Solar ETF,Energy,3703.55,2.3406,1913323,102.8,-0.0115,Solar
+SIL,Global X Silver Miners ETF,Materials,1115.6,0.373,409491,45.38,0.0093,Silver
+IBUY,Amplify Online Retail ETF,Consumer Discretionary,1466.59,1.2772,217285,116.95,0.0003,Retail
+ONLN,ProShares Online Retail ETF,Consumer Discretionary,940.35,1.1691,214194,77.68,-0.0099,Retail
+IYT,iShares Transportation Average ETF,Industrials,1512.54,0.1431,222882,220.75,0.0002,Transportation
+PHO,Invesco Water Resources ETF,Industrials,1288.83,0.1955,61288,45.96,0.0059,Water
+FAN,First Trust ISE Global Wind Energy Index Fund,Energy,379.92,0.5621,217488,22.61,0.0044,Wind
