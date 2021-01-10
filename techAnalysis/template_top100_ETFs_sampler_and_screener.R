@@ -19,7 +19,9 @@ stocksEnv <- new.env()
 getSymbols(sampledStocks$Symbol, env = stocksEnv, 
            from = "2020-01-01", src = "yahoo")
 
-
+# reverse order of symbols in data.frame for convenience
+sampledStocks <- sampledStocks[rev(seq_len(nrow(sampledStocks))), , 
+                               drop = FALSE]
 # Candle charts for stocks ------------------------------------------------
 
 for (stock in sampledStocks$Symbol) {
