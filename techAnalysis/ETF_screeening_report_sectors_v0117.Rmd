@@ -1,0 +1,1800 @@
+---
+title: "ETF Screening Report"
+author: "ETF Researcher"
+date: "January 17, 2021"
+output:
+  html_document:
+    df_print: paged
+  word_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Preparation
+```{r message=FALSE, warning=FALSE}
+# https://etfdb.com/compare/market-cap/
+
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+library(dplyr)
+```
+### Import ETF List
+```{r message=FALSE, warning=FALSE}
+companylist <- read_csv("selectedStocksETFs.csv") # prepared in excel
+colnames(companylist) <- c("Symbol", "ETF_name", "Asset_class", 
+                           "Total_assets", "YTD_Price_Change", 
+                           "Daily_Volume", "Close_price", "Day_Change",
+                           "Label")
+head(companylist)
+```
+### Clean Up the Table
+
+* What types of ETFs according to sectors / industries
+```{r}
+# companylist["Pro"] <- NULL
+# companylist$Total_assets <- as.numeric(gsub('[$,]', '', 
+#                                             companylist$Total_assets))
+# companylist$Asset_class <- as.factor(companylist$Asset_class)
+
+table(companylist$Asset_class)
+```
+### Select ETFs with Total Assets >= $50 Million
+
+* How many ETFs have total assets higher than 100 million USD
+```{r}
+companylist <- companylist %>% 
+  filter(Total_assets >= 50 & Daily_Volume >= 5000)
+nrow(companylist)
+```
+```{r}
+# start date to select
+start_date <- "2021-01-01"
+
+selectedStd <- 0.05 # daily
+selectedRtn <- 0    # accumulative
+```
+
+```{r}
+# candleChart function
+
+candle_charts <- function(){
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+}
+```
+```{r}
+cat("\\newpage")
+```
+
+## Artificial Intelligence (AI) ETFs
+```{r message=FALSE, warning=FALSE}
+stockSymbols <- companylist["Symbol"]
+idx_ai <- companylist$Label == "AI"
+sampledStocks <- stockSymbols[idx_ai, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx_ai, ]
+companylist_idx[, 1:2]
+```
+
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 0
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+candle_charts()
+```
+
+```{r}
+# store the sampled ETFs
+ETFs_list_all <- data.frame()
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+\newpage
+## Software and Cyber Security
+```{r}
+idx_software <- companylist$Label == "Software"
+sampledStocks <- stockSymbols[idx_software, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+
+```{r}
+companylist_idx <- companylist[idx_software, ]
+companylist_idx[, 1:2]
+```
+
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Semiconductor
+```{r}
+idx_semi <- companylist$Label == "Semiconductor"
+sampledStocks <- stockSymbols[idx_semi, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx_semi, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Oil and Gas
+```{r}
+idx <- companylist$Label == "OilGas"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Natural Resources
+```{r}
+idx <- companylist$Label == "NaturalResource"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## MLP
+```{r}
+idx <- companylist$Label == "MLP"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+
+\newpage
+
+## Medical Device
+```{r}
+idx <- companylist$Label == "MedicalDevice"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Media
+```{r}
+idx <- companylist$Label == "Media"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Battery
+```{r}
+idx <- companylist$Label == "Battery"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Internet
+```{r}
+idx <- companylist$Label == "Internet"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+```{r}
+candle_charts()
+```
+\newpage
+
+## Internet Security
+```{r}
+idx <- companylist$Label == "InternetSecurity"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Infrastructure
+```{r}
+idx <- companylist$Label == "Infrastructure"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Home
+```{r}
+idx <- companylist$Label == "Home"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Health Care
+```{r}
+idx <- companylist$Label == "Healthcare"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Gold Mining
+```{r}
+idx <- companylist$Label == "GoldMine"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+```{r}
+candle_charts()
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+\newpage
+
+## Finanical Service
+```{r}
+idx <- companylist$Label == "FinService"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Consumer
+```{r}
+idx <- companylist$Label == "Consumer"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Clean Energy
+```{r}
+idx <- companylist$Label == "CleanEnergy"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Utilities
+```{r}
+idx <- companylist$Label == "Utilities"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Telecom
+```{r}
+idx <- companylist$Label == "Telecom"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Technology
+```{r}
+idx <- companylist$Label == "Technology"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+``` 
+\newpage
+
+## Real Estate
+```{r}
+idx <- companylist$Label == "RealEstate"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Materials
+```{r}
+idx <- companylist$Label == "Materials"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Industrials
+```{r}
+idx <- companylist$Label == "Industrials"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Healthcare General
+```{r}
+idx <- companylist$Label == "HealthcareG"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Financials
+```{r}
+idx <- companylist$Label == "Financials"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Staples
+```{r}
+idx <- companylist$Label == "Staples"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Consumer Discretionary
+```{r}
+idx <- companylist$Label == "ConsumerD"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Biotechnology
+```{r}
+idx <- companylist$Label == "Biotechnology"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Banks
+```{r}
+idx <- companylist$Label == "Banks"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Airlines
+```{r}
+idx <- companylist$Label == "Airlines"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Aerospace and Defence
+```{r}
+idx <- companylist$Label == "Aerospace"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Solar
+```{r}
+idx <- companylist$Label == "Solar"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Silver
+```{r}
+idx <- companylist$Label == "Silver"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Retail
+```{r}
+idx <- companylist$Label == "Retail"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Transportation
+```{r}
+idx <- companylist$Label == "Transportation"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Water
+```{r}
+idx <- companylist$Label == "Water"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Game
+```{r}
+idx <- companylist$Label == "Game"
+sampledStocks <- stockSymbols[idx, "Symbol"]
+stocksEnv <- new.env()
+getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+```
+```{r}
+companylist_idx <- companylist[idx, ]
+companylist_idx[, 1:2]
+```
+### Check Returns and Standard Deviations
+
+* Daily sd is less than selectedStd
+* Accumulative return > 8%
+```{r}
+goodCandidate <- data.frame()
+
+for (stock in sampledStocks$Symbol) {
+  dret <- dailyReturn(stocksEnv[[stock]])
+  pret <- Return.cumulative(dret)
+  if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+    tmp <- data.frame(Symbol = stock, 
+                      sd = round(sd(dret), 3), 
+                      ret = round(as.numeric(pret), 3))
+    goodCandidate <- rbind(goodCandidate, tmp)
+    
+  }
+}
+
+# check the list
+goodCandidate
+
+```
+
+```{r}
+ETFs_list_all <- rbind(ETFs_list_all, sampledStocks)
+```
+
+```{r}
+candle_charts()
+```
+\newpage
+
+## Appendix: Table Summary for Sampled ETFs
+```{r echo=FALSE, fig.width=7, message=FALSE, warning=FALSE}
+subset(companylist, Symbol = ETFs_list_all$Symbol)
+# stocksEnv <- new.env()
+# getSymbols(ETFs_list_all$Symbol, env = stocksEnv, 
+#            from = "2021-01-01", src = "yahoo")
+# 
+# for (stock in ETFs_list_all$Symbol) {
+#   candleChart(stocksEnv[[stock]], name = stock)
+# }
+
+# candleChart(ZM, subset = "2020")
+# addSMA(n = 10, col = "white")
+# addSMA(n = 50, col = "blue")
+# addSMA(n = 200, col = "red")
+# addRSI(n = 14, maType = "EMA")
+# addBBands(n = 20, sd = 2)
+# addMACD(fast = 12, slow = 26, signal = 9, type = "EMA")
+# zoomChart(ZM, subset = "2020-06")
+```
+
