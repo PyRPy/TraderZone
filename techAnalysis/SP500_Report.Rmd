@@ -1,0 +1,167 @@
+---
+title: "SP500 Report"
+author: "ETF Researcher"
+date: "January 23, 2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Read Data for S&P 500 Companies 
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+companylist <- read_csv("symbols500.csv") # prepared in excel
+stockSymbols <- companylist["Symbol"]
+```
+
+## Number of Stocks in Each Sector
+```{r}
+companylist$`GICS Sector` <- factor(companylist$`GICS Sector`)
+table(companylist$`GICS Sector`)
+```
+
+## Get Stocks Data from Yahoo Finance
+
+* Define a function to obtain data and cancleChart
+```{r}
+get_data <- function(sector, start_date, selectedStd, selectedRtn){
+  sampledStocks <- subset(companylist, `GICS Sector` == sector)
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+  # produce candleChart for selected stocks
+  for (stock in sampledStocks$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+}
+
+    # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in sampledStocks$Symbol) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  goodCandidate
+  
+}
+```
+## Communiation Services Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Communication Services', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
+## Consumer Discretionary Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Consumer Discretionary', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Consumer Staples  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Consumer Staples', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Energy  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Energy', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Finance  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Financials', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
+## Health Care  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Health Care', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Industrials  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Industrials', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Information Technology  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Information Technology', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
+## Materials  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Materials', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
+## Real State Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Real Estate', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+## Utilities  Sector
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('Utilities', '2021-01-01', 0.05, 0.01)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
