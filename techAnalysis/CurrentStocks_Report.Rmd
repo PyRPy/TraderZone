@@ -1,0 +1,85 @@
+---
+title: "Current Stocks and ETFs Report"
+author: "ETF Researcher"
+date: "January 31, 2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Read Data for Stocks and ETFs Selected
+
+* The stocks data file can be downloaded directly from yahoo finance
+* Build a portfolio first, then download the selected stocks / ETFs
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+companylist <- read_csv("quotes.csv") # downloaded from yahoo finance as csv file
+stockSymbols <- companylist["Symbol"]
+```
+
+## Get Stocks Data from Yahoo Finance
+
+* Define a function to obtain data and cancleChart
+```{r}
+get_data <- function(start_date, selectedStd, selectedRtn){
+  sampledStocks <- companylist
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+
+  # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in sampledStocks$Symbol) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  # goodCandidate
+  
+  # produce candleChart for selected stocks
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+  }
+  
+  goodCandidate
+  
+}
+```
+## Stocks Trend - YTD
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('2021-01-01', 0.10, 0.00)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
+## Stocks Trend - 6 Months
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('2020-07-01', 0.10, 0.00)
+```
+
+### Return Table for Stocks
+```{r}
+return_report
+```
+
