@@ -1,0 +1,109 @@
+---
+title: "SPY Prediction based on ARIMA Model"
+author: "ETF Researcher"
+date: "March 14, 2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read / Download SPY Data
+```{r message=FALSE, warning=FALSE}
+library(quantmod)
+library(astsa)
+```
+```{r message=FALSE, warning=FALSE}
+getSymbols("SPY", from = '2021-01-04', src = "yahoo")
+stock <- SPY$SPY.Close
+
+```
+## Plot the data
+```{r}
+plot(stock)
+```
+
+## EDA
+```{r}
+plot(diff(stock))
+```
+```{r}
+plot(diff(log(stock)))
+```
+```{r}
+acf2(diff(stock))
+```
+```{r}
+acf2(stock)
+```
+
+## Model Building
+
+* AR(1)
+```{r, fig.height=6}
+sarima(stock, 1, 0, 0)
+```
+
+* ARIMA(1, 1, 0)
+```{r}
+sarima(stock, 1, 1, 0)
+```
+
+## Forecasting
+```{r}
+sarima.for(stock, 5, 1, 0, 0)
+```
+
+```{r}
+sarima.for(stock, 5, 1, 1, 0)
+```
+
+## Use 'Forecast' or 'fpp2' package
+```{r message=FALSE, warning=FALSE}
+library(fpp2)
+```
+
+* Auto Selection
+```{r}
+auto.arima(stock)
+```
+
+* Explore more forecasting models
+```{r}
+forecast(auto.arima(stock), h=5) %>% autoplot()
+```
+```{r}
+forecast(Arima(stock, order = c(1, 0, 0)), h=5) %>% autoplot()
+```
+```{r}
+forecast(Arima(stock, order = c(1, 1, 1)), h=5) %>% autoplot()
+```
+
+* Check Residuals
+```{r}
+checkresiduals(Arima(stock, order = c(1, 1, 1)))
+```
+```{r}
+checkresiduals(Arima(stock, order = c(1, 1, 0)))
+```
+
+```{r}
+checkresiduals(Arima(stock, order = c(1, 0, 0)))
+```
+```{r}
+checkresiduals(Arima(stock, order = c(0, 1, 0)))
+```
+
+## Compare with ETS
+```{r}
+stock %>% ets() %>% forecast(h=5) %>% autoplot()
+```
+
+## Final Selection
+
+* Simplicity
+* Avoid over-fitting
+```{r}
+forecast(Arima(stock, order = c(1, 1, 1)), h=5) %>% autoplot()
+```
