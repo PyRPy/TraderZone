@@ -2,7 +2,9 @@
 title: "SPY Prediction based on ARIMA Model"
 author: "ETF Researcher"
 date: "March 14, 2021"
-output: word_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -125,7 +127,7 @@ fArima <- function(x, h) {
   forecast(auto.arima(x), h=h)
 }
 
-errorArima <- tsCV(stock, fArima, h = 5)
+errorArima <- tsCV(stock, fArima, window = 20, h = 5)
 
 mean(errorArima^2, na.rm = TRUE)
 ```
@@ -136,7 +138,7 @@ fNaive <- function(x, h) {
   forecast(naive(x, h), h = h)
 }
 
-errorNaive <- tsCV(stock, fNaive, h = 5)
+errorNaive <- tsCV(stock, fNaive, window = 20, h = 5)
 mean(errorNaive^2, na.rm = TRUE)
 ```
 
@@ -146,7 +148,7 @@ fETS <- function(x, h) {
   forecast(ets(x), h = h)
 }
 
-errorETS <- tsCV(stock, fETS, h = 5)
+errorETS <- tsCV(stock, fETS, window = 20, h = 5)
 mean(errorETS^2, na.rm = TRUE)
 ```
 
