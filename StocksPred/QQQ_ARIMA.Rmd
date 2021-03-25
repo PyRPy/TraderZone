@@ -1,0 +1,185 @@
+---
+title: "SPY Prediction based on ARIMA Model"
+author: "ETF Researcher"
+date: "March 25, 2021"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Read / Download SPY Data
+```{r message=FALSE, warning=FALSE}
+library(quantmod)
+library(astsa)
+library(fpp2)
+```
+```{r message=FALSE, warning=FALSE}
+getSymbols("QQQ", from = '2020-12-01', src = "yahoo")
+stock <- QQQ$QQQ.Close
+
+```
+## Plot the stocks
+```{r}
+plot(stock)
+```
+
+## EDA
+
+* ACF and PACF
+```{r}
+acf2(stock)
+```
+
+* Detrend
+```{r}
+plot(diff(stock))
+```
+
+* Rate of returns
+```{r}
+plot(diff(log(stock)))
+```
+
+* ACF and PACF after first order difference
+```{r}
+acf2(diff(stock))
+```
+
+
+## Model Building
+
+* AR(1)
+```{r, fig.height=6}
+sarima(stock, 1, 0, 0)
+```
+
+* Plots overlays
+```{r}
+arimaAR1 <- arima(stock, order = c(1, 0, 0))
+
+autoplot(ts(QQQ$QQQ.Close)) +
+  autolayer(fitted(arimaAR1), series="Fitted") +
+  ylab("$") + xlab("Time")
+```
+
+* ARIMA(1, 1, 0)
+```{r}
+sarima(stock, 1, 1, 0)
+```
+
+## Forecasting
+```{r}
+sarima.for(stock, 5, 1, 0, 0)
+```
+
+```{r}
+sarima.for(stock, 5, 1, 1, 0)
+```
+
+## Use 'Forecast' or 'fpp2' package
+
+* Auto Selection
+```{r}
+auto.arima(stock)
+```
+```{r}
+arimaDiff1 <- arima(stock, order = c(0, 1, 0))
+
+autoplot(ts(QQQ$QQQ.Close)) +
+  autolayer(fitted(arimaDiff1), series="Fitted") +
+  ylab("$") + xlab("Time")
+```
+
+
+* Explore more forecasting models
+```{r}
+forecast(auto.arima(stock), h=5) %>% autoplot()
+```
+```{r}
+forecast(Arima(stock, order = c(1, 0, 0)), h=5) %>% autoplot()
+```
+```{r}
+forecast(Arima(stock, order = c(1, 1, 1)), h=5) %>% autoplot()
+```
+
+* Check Residuals
+```{r}
+checkresiduals(Arima(stock, order = c(1, 1, 1)))
+```
+```{r}
+checkresiduals(Arima(stock, order = c(1, 1, 0)))
+```
+
+```{r}
+checkresiduals(Arima(stock, order = c(1, 0, 0)))
+```
+```{r}
+checkresiduals(Arima(stock, order = c(0, 1, 0)))
+```
+
+## Cross Validation on Different Models
+```{r}
+fArima <- function(x, h) {
+  forecast(auto.arima(x), h=h)
+}
+
+errorArima <- tsCV(stock, fArima, window = 30, h = 5)
+
+mean(errorArima^2, na.rm = TRUE)
+```
+
+## Naive Model
+```{r}
+fNaive <- function(x, h) {
+  forecast(naive(x, h), h = h)
+}
+
+errorNaive <- tsCV(stock, fNaive, window = 30, h = 5)
+mean(errorNaive^2, na.rm = TRUE)
+```
+
+## ETS Model
+```{r}
+fETS <- function(x, h) {
+  forecast(ets(x), h = h)
+}
+
+errorETS <- tsCV(stock, fETS, window = 30, h = 5)
+mean(errorETS^2, na.rm = TRUE)
+```
+
+## Models for Selection
+
+* Simplicity
+* Avoid over-fitting
+* Speed
+
+```{r}
+forecast(Arima(stock, order = c(1, 0, 0)), h=5) %>% autoplot()
+```
+```{r}
+forecast(ets(stock), h = 5) %>% autoplot()
+```
+```{r}
+etsModel <- ets(stock)
+
+autoplot(ts(QQQ$QQQ.Close)) +
+  autolayer(fitted(etsModel), series="Fitted") +
+  ylab("$") + xlab("Time")
+```
+
+```{r}
+forecast(naive(stock, 5), h = 5) %>% autoplot()
+```
+
+```{r}
+naiveModel <- naive(stock, 5)
+
+autoplot(ts(QQQ$QQQ.Close)) +
+  autolayer(fitted(naiveModel), series="Fitted") +
+  ylab("$") + xlab("Time")
+```
