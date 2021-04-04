@@ -37,3 +37,12 @@ getSymbols("CXO", env = stocksEnv,
 
 getSymbols("COP", env = stocksEnv, 
            from = '2021-01-01', src = "yahoo")
+
+getSymbols(c("DVN", "FANG", "EOG", "XOM", "HAL", "HES", "HFC", "KMI", "MRO", "MPC"), env = stocksEnv, 
+           from = '2021-01-01', src = "yahoo")
+
+getSymbols(c("NOV", "OXY", "OKE", "PSX", "PXD", "SLB", "FTI", "VLO", "WMB"), env = stocksEnv, 
+           from = '2021-01-01', src = "yahoo")
+
+getSymbols(c("APA", "BKR", "COG", "CVX", "DVN", "FANG"), env = stocksEnv, 
+           from = '2021-01-01', src = "yahoo")
