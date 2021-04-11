@@ -16,6 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
+library(dplyr)
 companylist <- read_csv("symbols500.csv") # prepared in excel
 stockSymbols <- companylist["Symbol"]
 ```
@@ -30,7 +31,6 @@ table(companylist$`GICS Sector`)
 companylist <- subset(companylist, Symbol != "COP" & Symbol != "CXO")
 table(companylist$`GICS Sector`)
 ```
-
 
 ## Get Stocks Data from Yahoo Finance
 
@@ -72,6 +72,63 @@ get_data <- function(sector, start_date, selectedStd, selectedRtn){
   
 }
 ```
+
+* Define a function to obtain data and cancleChart for Sub Industries
+```{r}
+get_data_sub <- function(sub, start_date, selectedStd, selectedRtn){
+  sampledStocks <- subset(companylist, `GICS Sub-Industry` == sub)
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+
+  # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in sampledStocks$Symbol) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  # goodCandidate
+  
+  # produce candleChart for selected stocks
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+  }
+  
+  goodCandidate
+  
+}
+```
+
+## Samples of Sub Industries from S&P500
+```{r}
+restaurants <- get_data_sub('Restaurants', '2021-01-01', 0.05, 0.01)
+```
+```{r}
+restaurants
+```
+
+* Tobacco 
+```{r}
+tobacco <- get_data_sub('Tobacco', '2021-01-01', 0.05, 0.01)
+```
+```{r}
+tobacco
+```
+
+
 ## Communiation Services Sector
 ```{r message=FALSE, warning=FALSE}
 return_report <- get_data('Communication Services', '2021-01-01', 0.05, 0.05)
@@ -176,3 +233,8 @@ return_report <- get_data('Utilities', '2021-01-01', 0.05, 0.05)
 return_report
 ```
 
+## Appendix I Sub Industries
+### Sub Industries
+```{r}
+table(companylist$`GICS Sub-Industry`)
+```
