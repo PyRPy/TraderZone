@@ -28,7 +28,7 @@ table(companylist$`GICS Sector`)
 ```
 ## Remove Symbols that Failed to Download
 ```{r}
-companylist <- subset(companylist, Symbol != "COP" & Symbol != "CXO")
+companylist <- subset(companylist, Symbol != "COP" & Symbol != "CXO" & Symbol != "FOX")
 table(companylist$`GICS Sector`)
 ```
 
@@ -113,32 +113,171 @@ get_data_sub <- function(sub, start_date, selectedStd, selectedRtn){
 }
 ```
 
+## Another search function by keywords
+```{r}
+get_data_keyword <- function(key, start_date, selectedStd, selectedRtn){
+  sampledStocks <- companylist[grep(key, companylist$`GICS Sub-Industry`), ]
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+
+  # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in sampledStocks$Symbol) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  # goodCandidate
+  
+  # produce candleChart for selected stocks
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+  }
+  
+  goodCandidate
+}  
+```
+
+
+
 ## Samples of Sub Industries from S&P500
 
-* Restaurants
+## Restaurants
 
 ```{r}
 restaurants <- get_data_sub('Restaurants', '2021-01-01', 0.05, 0.01)
 ```
+
 ```{r}
 restaurants
 ```
 
-* Tobacco 
+## Tobacco 
 
 ```{r}
 tobacco <- get_data_sub('Tobacco', '2021-01-01', 0.05, 0.01)
 ```
+
 ```{r}
 tobacco
 ```
 
-* Airlines
+## Airlines
+
 ```{r}
 airlines <- get_data_sub('Airlines', '2021-01-01', 0.05, 0.01)
 ```
+
 ```{r}
 airlines
+```
+
+
+## Auto Parts & Equipment
+
+```{r}
+autoparts <- get_data_sub('Auto Parts & Equipment', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+autoparts
+```
+
+
+## Movies & Entertainment 
+
+```{r}
+# movie_list <- c("FOXA", "FOX", "LYV", "NFLX", "VIAC", "DIS")
+# FOX is not loading somehow.
+movies <- get_data_sub('Movies & Entertainment', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+movies
+```
+
+## Railroads 
+
+```{r}
+railroads <- get_data_sub('Railroads', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+railroads
+```
+
+## Packaged Foods & Meats 
+
+```{r}
+packedfoods <- get_data_sub('Packaged Foods & Meats', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+packedfoods
+```
+
+## Fertilizers & Agricultural Chemicals
+
+```{r}
+fertilizer <- get_data_sub('Fertilizers & Agricultural Chemicals', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+fertilizer
+```
+
+
+## Cable & Satellite 
+
+```{r}
+cable <- get_data_sub('Cable & Satellite', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+cable
+```
+
+## Casinos & Gaming
+
+```{r}
+casinos <- get_data_sub('Casinos & Gaming', '2021-01-01', 0.05, 0.01)
+```
+```{r}
+casinos
+```
+
+## Home 
+
+```{r}
+home <- get_data_keyword('Home', '2021-01-01', 0.05, 0.01)
+```
+
+```{r}
+home
+```
+
+## Banks
+
+```{r}
+bank <- get_data_keyword('Bank', '2021-01-01', 0.05, 0.01)
+```
+
+
+```{r}
+bank
 ```
 
 
