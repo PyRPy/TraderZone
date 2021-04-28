@@ -1,0 +1,43 @@
+---
+title: "SPY_Garch"
+author: "ETF Researcher"
+date: "4/28/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Yahoo Finance
+```{r}
+library(quantmod)
+```
+```{r}
+getSymbols("SPY", from = '2020-01-01', src = "yahoo")
+stock <- SPY$SPY.Close
+```
+## Plot the stock
+```{r}
+plot(stock)
+```
+## Returns
+```{r}
+stockr <- diff(log(stock))[-1]
+plot(stockr)
+```
+
+## Garch Model
+```{r}
+library(fGarch)
+```
+
+```{r}
+stockr.g <- garchFit(~arma(1, 0) + garch(1, 1), data = stockr,
+                    cond.dist = 'std')
+summary(stockr.g)
+```
+
+```{r}
+plot(stockr.g, which = 3)
+```
