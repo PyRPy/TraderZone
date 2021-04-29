@@ -1,0 +1,51 @@
+---
+title: "Find Median Values for a Penny Stock"
+author: "ETF Researcher"
+date: "4/29/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Yahoo Finance
+```{r warning=FALSE}
+library(quantmod)
+```
+```{r warning=FALSE}
+getSymbols("INPX", from = '2021-01-01', src = "yahoo")
+stock <- INPX$INPX.Close
+```
+## Plot the stock
+```{r}
+plot(stock)
+```
+## Returns
+```{r}
+stockr <- diff(log(stock))[-1]
+plot(stockr)
+```
+
+## Grahpics by fpp2
+```{r}
+library(fpp2)
+library(lubridate)
+```
+```{r}
+autoplot(stock)
+```
+
+## Boxplot monthly
+```{r}
+stock %>% ggplot(aes(x = time(stock), y = INPX.Close)) +
+  geom_boxplot() +
+  facet_wrap(~ month(stock), ncol = 4)
+```
+
+## Boxplot monthly - a better version !
+```{r}
+stock %>% ggplot(aes(x = time(stock), y = INPX.Close, group = month(stock))) +
+  geom_boxplot()
+```
+
