@@ -1,0 +1,143 @@
+---
+title: "China Stocks Report"
+author: "ETF Researcher"
+date: "March 31, 2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Read Data for China Stocks
+Reference from :
+https://www.investors.com/news/best-chinese-stocks-to-buy/?src=A00220
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+
+stocksGeneral <- c("BABA", "JD", "PDD", "TCEHY", "VIPS",
+                   "BIDU", "TME", "NTES", "TCOM", "DADA", 
+                   "YY", "BEKE", "BILI")
+
+stocksEV <- c("NIO", "XPEV", "LI", "BYDDF")
+
+stocksFin <- c("FUTU", "TIGR", "QFIN")
+
+stocksSolar <- c("DQ", "JKS")
+
+stocksEdu <- c("EDU", "TAL", "YQ", "GSX")
+
+stocksOther <- c("YSG", "GDS")
+
+```
+
+## Get Stocks Data from Yahoo Finance
+
+* Define a function to obtain data and candleChart
+
+```{r}
+get_data <- function(ETFsymbols, start_date, selectedStd, selectedRtn){
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(ETFsymbols, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+
+  # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in ETFsymbols) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  # goodCandidate
+  
+  # produce candleChart for selected stocks
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+  }
+  
+  goodCandidate
+  
+}
+```
+
+## General Stocks
+
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data(stocksGeneral, '2021-01-01', 0.10, -0.5)
+```
+
+### Return Table for Stocks
+
+```{r}
+return_report
+```
+## EV Stocks
+```{r}
+return_report <- get_data(stocksEV, '2021-01-01', 0.10, -0.5)
+```
+
+### Return Table for EV Stocks
+```{r}
+return_report
+```
+
+## Financial Stocks
+```{r}
+return_report <- get_data(stocksFin, '2021-01-01', 0.10, -0.5)
+```
+
+## Return for Financial Stocks
+```{r}
+return_report
+```
+
+## Solar Stocks
+
+```{r}
+return_report <- get_data(stocksSolar, '2021-01-01', 0.10, -0.5)
+```
+
+## Return for Solar Stocks
+```{r}
+return_report
+```
+
+## Education Stocks
+
+```{r}
+return_report <- get_data(stocksEdu, '2021-01-01', 0.10, -0.5)
+```
+
+## Return for Education Stocks
+```{r}
+return_report
+```
+
+## Multi Areas Stocks
+
+```{r}
+return_report <- get_data(stocksOther, '2021-01-01', 0.10, -0.5)
+```
+
+## Return for Multi-Area Stocks
+```{r}
+return_report
+```
+
