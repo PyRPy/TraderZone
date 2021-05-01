@@ -1,0 +1,244 @@
+---
+title: "ETF Screening Report"
+author: "ETF Researcher"
+date: "May 1, 2021"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Preparation
+```{r message=FALSE, warning=FALSE}
+# https://etfdb.com/compare/market-cap/
+
+library(readr)
+library(quantmod)
+library(PerformanceAnalytics)
+library(dplyr)
+```
+### Import ETF List
+```{r message=FALSE, warning=FALSE}
+companylist <- read_csv("selectedStocksETFs.csv") # prepared in excel
+colnames(companylist) <- c("Symbol", "ETF_name", "Asset_class", 
+                           "Total_assets", "YTD_Price_Change", 
+                           "Daily_Volume", "Close_price", "Day_Change",
+                           "Label")
+head(companylist)
+```
+### Clean Up the Table
+
+* What types of ETFs according to sectors / industries
+```{r}
+# companylist["Pro"] <- NULL
+# companylist$Total_assets <- as.numeric(gsub('[$,]', '', 
+#                                             companylist$Total_assets))
+# companylist$Asset_class <- as.factor(companylist$Asset_class)
+
+table(companylist$Asset_class)
+```
+### Select ETFs with Total Assets >= $50 Million
+
+* How many ETFs have total assets higher than 100 million USD
+```{r}
+companylist <- companylist %>% 
+  filter(Total_assets >= 50 & Daily_Volume >= 5000)
+nrow(companylist)
+```
+```{r}
+# start date to select
+start_date <- "2021-01-01"
+
+selectedStd <- 0.05 # daily
+selectedRtn <- 0    # accumulative
+```
+
+## Get ETFS Data from Yahoo Finance
+
+* Define a function to obtain data and candleChart
+```{r}
+get_data <- function(sector, start_date, selectedStd, selectedRtn){
+  sampledStocks <- subset(companylist, Label == sector)
+  
+  # store data in a new environment
+  stocksEnv <- new.env()
+  getSymbols(sampledStocks$Symbol, env = stocksEnv, 
+           from = start_date, src = "yahoo")
+  
+
+  # produce return report
+  goodCandidate <- data.frame()
+
+  for (stock in sampledStocks$Symbol) {
+    dret <- dailyReturn(stocksEnv[[stock]])
+    pret <- Return.cumulative(dret)
+    if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
+      tmp <- data.frame(Symbol = stock, 
+                        sd = round(sd(dret), 3), 
+                        ret = round(as.numeric(pret), 3))
+      goodCandidate <- rbind(goodCandidate, tmp)
+      
+    }
+  }
+  
+  # check the list
+  # goodCandidate
+  
+  # produce candleChart for selected stocks
+  for (stock in goodCandidate$Symbol) {
+  candleChart(stocksEnv[[stock]], name = stock)
+  }
+  
+  goodCandidate
+  
+}
+```
+
+
+## Artificial Intelligence (AI) ETFs
+
+```{r message=FALSE, warning=FALSE}
+return_report <- get_data('AI', '2021-01-01', 0.05, 0.05)
+```
+
+```{r}
+return_report
+```
+
+## Software and Cyber Security
+
+```{r}
+return_report <- get_data('Software', '2021-01-01', 0.05, 0.00)
+```
+
+```{r}
+return_report
+```
+
+## Semiconductor
+
+```{r}
+return_report <- get_data('Semiconductor', '2021-01-01', 0.05, 0.00)
+```
+
+
+```{r}
+return_report
+```
+
+## Oil and Gas (OilGas)
+```{r}
+return_report <- get_data('OilGas', '2021-01-01', 0.05, 0.00)
+```
+```{r}
+return_report
+```
+
+## Natural Resources (NaturalResource)
+
+```{r}
+return_report <- get_data('NaturalResource', '2021-01-01', 0.05, 0.00)
+```
+
+```{r}
+return_report
+```
+
+## MLP (MLP)
+```{r}
+return_report <- get_data('MLP', '2021-01-01', 0.05, 0.00)
+```
+```{r}
+return_report
+```
+
+## Medical Device (MedicalDevice)
+```{r}
+return_report <- get_data('MedicalDevice', '2021-01-01', 0.05, 0.00)
+```
+
+```{r}
+return_report
+```
+
+
+## Media (Media)
+```{r}
+return_report <- get_data('Media', '2021-01-01', 0.05, 0.00)
+```
+
+```{r}
+return_report
+```
+
+## Battery
+```{r}
+return_report <- get_data('Battery', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
+## Internet
+
+## Internet Security (InternetSecurity)
+
+## Infrastructure
+
+## Home
+
+## Health Care
+
+## Gold Mining (GoldMine)
+
+## Finanical Service (FinService)
+
+## Consumer
+
+## Clean Energy (CleanEnergy)
+
+## Utilities
+
+## Telecom
+
+## Technology
+
+## Real Estate
+
+## Materials
+
+## Industrials
+
+## Healthcare General(HealthcareG)
+
+## Financials
+
+## Staples
+
+## Consumer Discretionary (ConsumerD)
+
+## Biotechnology
+
+## Banks
+
+## Airlines
+
+## Aerospace and Defence (Aerospace)
+
+## Solar
+
+## Silver
+
+## Retail
+
+## Transportation
+
+## Water
+
+## Game
