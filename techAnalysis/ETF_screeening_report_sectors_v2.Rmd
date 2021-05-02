@@ -44,10 +44,10 @@ table(companylist$Asset_class)
 ```
 ### Select ETFs with Total Assets >= $50 Million
 
-* How many ETFs have total assets higher than 100 million USD
+* How many ETFs have total assets higher than 20 million USD
 ```{r}
-companylist <- companylist %>% 
-  filter(Total_assets >= 50 & Daily_Volume >= 5000)
+# companylist <- companylist %>% 
+#   filter(Total_assets >= 20 & Daily_Volume >= 5000)
 nrow(companylist)
 ```
 ```{r}
@@ -103,7 +103,7 @@ get_data <- function(sector, start_date, selectedStd, selectedRtn){
 ## Artificial Intelligence (AI) ETFs
 
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('AI', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('AI', '2021-01-01', 0.05, 0.00)
 ```
 
 ```{r}
@@ -135,6 +135,7 @@ return_report
 ```{r}
 return_report <- get_data('OilGas', '2021-01-01', 0.05, 0.00)
 ```
+
 ```{r}
 return_report
 ```
@@ -150,6 +151,7 @@ return_report
 ```
 
 ## MLP (MLP)
+
 ```{r}
 return_report <- get_data('MLP', '2021-01-01', 0.05, 0.00)
 ```
@@ -158,6 +160,7 @@ return_report
 ```
 
 ## Medical Device (MedicalDevice)
+
 ```{r}
 return_report <- get_data('MedicalDevice', '2021-01-01', 0.05, 0.00)
 ```
@@ -168,6 +171,7 @@ return_report
 
 
 ## Media (Media)
+
 ```{r}
 return_report <- get_data('Media', '2021-01-01', 0.05, 0.00)
 ```
@@ -177,6 +181,7 @@ return_report
 ```
 
 ## Battery
+
 ```{r}
 return_report <- get_data('Battery', '2021-01-01', 0.05, -0.5)
 ```
@@ -187,58 +192,334 @@ return_report
 
 ## Internet
 
+```{r}
+return_report <- get_data('Internet', '2021-01-01', 0.05, 0.00)
+```
+
+```{r}
+return_report
+```
 ## Internet Security (InternetSecurity)
+
+```{r}
+return_report <- get_data('InternetSecurity', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report 
+```
 
 ## Infrastructure
 
+```{r}
+return_report <- get_data('Infrastructure', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 ## Home
+
+```{r}
+return_report <- get_data('Home', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Health Care
 
+```{r}
+return_report <- get_data('Healthcare', '2021-01-01', 0.05, -0.5)
+```
+```{r}
+return_report
+```
+
 ## Gold Mining (GoldMine)
 
+```{r}
+return_report <- get_data('GoldMine', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 ## Finanical Service (FinService)
+
+```{r}
+return_report <- get_data('FinService', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Consumer
 
+```{r}
+return_report <- get_data('Consumer', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Clean Energy (CleanEnergy)
 
+```{r}
+return_report <- get_data('CleanEnergy', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 ## Utilities
+
+```{r}
+return_report <- get_data('Utilities', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Telecom
 
+```{r}
+return_report <- get_data('Telecom', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Technology
+
+```{r}
+return_report <- get_data('Technology', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Real Estate
 
+```{r}
+return_report <- get_data('RealEstate', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Materials
+
+```{r}
+return_report <- get_data('Materials', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 
 ## Industrials
 
+```{r}
+return_report <- get_data('Industrials', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Healthcare General(HealthcareG)
+
+```{r}
+return_report <- get_data('HealthcareG', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Financials
 
+```{r}
+return_report <- get_data('Financials', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Staples
+
+```{r}
+return_report <- get_data('Staples', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Consumer Discretionary (ConsumerD)
 
+```{r}
+return_report <- get_data('ConsumerD', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Biotechnology
+
+```{r}
+return_report <- get_data('Biotechnology', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Banks
 
+```{r}
+return_report <- get_data('Banks', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report 
+```
+
+
 ## Airlines
+
+```{r}
+return_report <- get_data('Airlines', '2021-01-01', 0.05, -0.5)
+```
+
 
 ## Aerospace and Defence (Aerospace)
 
+```{r}
+return_report <- get_data('Aerospace', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
+
 ## Solar
+
+```{r}
+return_report <- get_data('Solar', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Silver
 
+```{r}
+return_report <- get_data('Silver', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
 ## Retail
+
+```{r}
+return_report <- get_data('Retail', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
 
 ## Transportation
 
+```{r}
+return_report <- get_data('Transportation', '2021-01-01', 0.05, -0.5)
+```
+```{r}
+return_report
+```
+
+
 ## Water
 
+```{r}
+return_report <- get_data('Water', '2021-01-01', 0.05, -0.5)
+```
+```{r}
+return_report
+```
+
+
 ## Game
+
+```{r}
+return_report <- get_data('Game', '2021-01-01', 0.05, -0.5)
+```
+```{r}
+return_report
+```
+
+## Countries or Regions
+
+```{r}
+return_report <- get_data('Countries', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+## Blockchain
+
+```{r}
+return_report <- get_data('Blockchain', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
+## Cannabis
+
+```{r}
+return_report <- get_data('Cannabis', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
+## ARK
+
+```{r}
+return_report <- get_data('ARK', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
+## Waste
+
+```{r}
+return_report <- get_data('Waste', '2021-01-01', 0.05, -0.5)
+```
+
+```{r}
+return_report
+```
+
