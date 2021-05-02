@@ -2,7 +2,6 @@ Symbol,ETF Name,Asset Class,Total Assets ($MM),YTD Price Change,Avg. Daily Volum
 BLOK,Amplify Transformational Data Sharing ETF,Equity,339.9,0.792,156134,33.6,-0.0207,Blockchain
 BLCN,Reality Shares Nasdaq NexGen Economy ETF,Equity,183.3,0.5593,70842,39.57,-0.0035,Blockchain
 LEGR,First Trust Indxx Innovative Transaction & Process ETF,Equity,53.52,0.1673,7405,36.98,-0.0024,Blockchain
-GFIN,Goldman Sachs Finance Reimagined ETF,Equity,50.45,0.1394,7153,67.11,0.0021,Blockchain
 KOIN,Innovation Shares NextGen Protocol ETF,Equity,19.36,0.3047,9558,37,-0.0013,Blockchain
 QQQ,Invesco QQQ,Equity,149662,0.4664,37415434,309.56,,AI
 VGT,Vanguard Information Technology ETF,Equity,41058.4,0.4567,578957,352.88,,AI
@@ -134,6 +133,42 @@ TAN,Invesco Solar ETF,Energy,3703.55,2.3406,1913323,102.8,-0.0115,Solar
 SIL,Global X Silver Miners ETF,Materials,1115.6,0.373,409491,45.38,0.0093,Silver
 IBUY,Amplify Online Retail ETF,Consumer Discretionary,1466.59,1.2772,217285,116.95,0.0003,Retail
 ONLN,ProShares Online Retail ETF,Consumer Discretionary,940.35,1.1691,214194,77.68,-0.0099,Retail
+BDRY,,,,,,,,Transportation
 IYT,iShares Transportation Average ETF,Industrials,1512.54,0.1431,222882,220.75,0.0002,Transportation
 PHO,Invesco Water Resources ETF,Industrials,1288.83,0.1955,61288,45.96,0.0059,Water
 FAN,First Trust ISE Global Wind Energy Index Fund,Energy,379.92,0.5621,217488,22.61,0.0044,Wind
+SPY,,,5000000,,85628546,,,Countries
+EWC,,,5000000,,2092221,,,Countries
+EWU,,,5000000,,3953793,,,Countries
+AIA,,,5000000,,233614,,,Countries
+KORU,,,5000000,,129455,,,Countries
+MCHI,,,5000000,,2311990,,,Countries
+INDA,,,5000000,,5915886,,,Countries
+EWG,,,5000000,,4867444,,,Countries
+EWY,,,5000000,,3633932,,,Countries
+EWT,,,5000000,,3650682,,,Countries
+EWZ,,,5000000,,36290172,,,Countries
+EWJ,,,5000000,,6545921,,,Countries
+NAIL,,,,,,,,Home
+WOOD,,,,,,,,Home
+MJ,,,,,,,,Cannabis
+MSOS,,,,,,,,Cannabis
+YOLO,,,,,,,,Cannabis
+POTX,,,,,,,,Cannabis
+THCX,,,,,,,,Cannabis
+CNBS,,,,,,,,Cannabis
+MJJ,,,,,,,,Cannabis
+TOKE,,,,,,,,Cannabis
+MJO,,,,,,,,Cannabis
+IZRL,,,,,,,,ARK
+ARKG,,,,,,,,ARK
+ARKW,,,,,,,,ARK
+PRNT,,,,,,,,ARK
+ARKQ,,,,,,,,ARK
+ARKF,,,,,,,,ARK
+ARKK,,,,,,,,ARK
+CVA,,,,,,,,Waste
+WM,,,,,,,,Waste
+AWAY,,,,,,,,Airlines
+REMX,,,,,,,,Materials
+URNM,,,,,,,,Materials
