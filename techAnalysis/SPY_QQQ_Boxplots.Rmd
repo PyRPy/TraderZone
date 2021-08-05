@@ -1,0 +1,37 @@
+---
+title: "Long term or mid-term trend"
+author: "ETF Researcher"
+date: "4/29/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data from Yahoo Finance
+```{r warning=FALSE}
+library(quantmod)
+```
+```{r warning=FALSE}
+stock_list <- c("SPY", "QQQ")
+getSymbols(stock_list, from = '2021-01-01', src = "yahoo")
+
+```
+
+## Boxplot monthly - SPY
+```{r}
+stock <- SPY$SPY.Close
+stock %>% ggplot(aes(x = time(stock), y = SPY.Close, group = month(stock))) +
+  geom_boxplot() 
+  
+```
+
+## Boxplot monthly - QQQ
+```{r}
+stock <- QQQ$QQQ.Close
+stock %>% ggplot(aes(x = time(stock), y = QQQ.Close, group = month(stock))) +
+  geom_boxplot()
+
+```
+
