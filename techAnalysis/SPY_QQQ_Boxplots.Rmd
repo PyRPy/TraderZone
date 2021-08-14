@@ -12,26 +12,41 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Data from Yahoo Finance
 ```{r warning=FALSE}
 library(quantmod)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
+library(fpp2)
 ```
 ```{r warning=FALSE}
-stock_list <- c("SPY", "QQQ")
+stock_list <- c("SPY", "QQQ", "JETS")
 getSymbols(stock_list, from = '2021-01-01', src = "yahoo")
 
 ```
+## Define a boxplot function
+```{r}
+stock_boxplot <- function(stock) {
+  tmp <- Cl(stock)
+  names(tmp) <- "Close"
+  tmp %>% ggplot(aes(x = time(tmp), y = Close, group = month(tmp))) +
+    geom_boxplot() 
+}
+```
+
 
 ## Boxplot monthly - SPY
 ```{r}
-stock <- SPY$SPY.Close
-stock %>% ggplot(aes(x = time(stock), y = SPY.Close, group = month(stock))) +
-  geom_boxplot() 
+stock_boxplot(SPY)
   
 ```
 
 ## Boxplot monthly - QQQ
 ```{r}
-stock <- QQQ$QQQ.Close
-stock %>% ggplot(aes(x = time(stock), y = QQQ.Close, group = month(stock))) +
-  geom_boxplot()
+stock_boxplot(QQQ)
 
+```
+
+## Boxplot manthly - JETS
+```{r}
+stock_boxplot(JETS)
 ```
 
