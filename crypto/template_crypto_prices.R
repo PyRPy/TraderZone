@@ -11,3 +11,15 @@ chartSeries(`BTC-USD`,
 
 chartSeries(`DOGE-USD`, subset='2021-01::')
 chartSeries(`SHIB-USD`, subset='2021-01::')
+
+
+# Blockchain related ETFs -------------------------------------------------
+
+blockchainETFs = c("BITQ", "BITO", "BITS", "BLOK", "BLCN")
+getSymbols(blockchainETFs, src="yahoo")
+
+chartSeries(BITO)
+chartSeries(BITQ)
+chartSeries(BITS)
+chartSeries(BLOK)
+chartSeries(BLCN)
