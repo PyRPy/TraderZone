@@ -32,17 +32,6 @@ plot(stockr)
 library(fpp2)
 library(lubridate)
 ```
-```{r}
-autoplot(stock)
-```
-
-## Boxplot monthly
-```{r}
-stock %>% ggplot(aes(x = time(stock), y = INPX.Close)) +
-  geom_boxplot() +
-  facet_wrap(~ month(stock), ncol = 4)
-```
-
 ## Boxplot monthly - a better version !
 ```{r}
 stock %>% ggplot(aes(x = time(stock), y = INPX.Close, group = month(stock))) +
