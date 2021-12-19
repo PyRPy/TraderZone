@@ -19,13 +19,16 @@ knitr::opts_chunk$set(echo = FALSE)
 library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
+```
+
+```{r message=FALSE, warning=FALSE}
 companylist <- read_csv("quotes.csv") # downloaded from yahoo finance as csv file
 stockSymbols <- companylist["Symbol"]
 ```
 
 ## Get Stocks Data from Yahoo Finance
 
-* Define a function to obtain data and cancleChart
+* Define a function to obtain data and candleChart
 ```{r}
 get_data <- function(start_date, selectedStd, selectedRtn){
   sampledStocks <- companylist
@@ -65,7 +68,7 @@ get_data <- function(start_date, selectedStd, selectedRtn){
 ```
 ## Stocks Trend - YTD
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('2021-01-01', 0.10, 0.00)
+return_report <- get_data('2021-01-01', 0.50, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -75,7 +78,7 @@ return_report
 
 ## Stocks Trend - 6 Months
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('2020-07-01', 0.10, 0.00)
+return_report <- get_data('2021-07-01', 0.50, -0.50)
 ```
 
 ### Return Table for Stocks
