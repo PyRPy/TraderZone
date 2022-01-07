@@ -27,7 +27,7 @@ getSymbols(stock_list, from = '2021-01-01', src = "yahoo")
 stock_boxplot <- function(stock) {
   tmp <- Cl(stock)
   names(tmp) <- "Close"
-  tmp %>% ggplot(aes(x = month(tmp), y = Close, group = month(tmp))) +
+  tmp %>% ggplot(aes(x = time(tmp), y = Close, group = month(tmp))) +
     geom_boxplot() 
 }
 ```
