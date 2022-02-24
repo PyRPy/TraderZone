@@ -8,12 +8,12 @@ library(tidyverse)
 
 # load data from tickers --------------------------------------------------
 
-tikers = c("EWC", "HDRO", "NUSI", "TCHP", "UBER", "VNM", "WEAT")
+tickers = c("EWC", "HDRO", "NUSI", "TCHP", "UBER", "VNM", "WEAT")
 costs = c(753, 933, 817, 1595, 890, 307, 145)
 wts = costs / sum(costs)
 sum(wts)
 
-price_data <- tq_get(tikers,
+price_data <- tq_get(tickers,
                      from = "2021-01-01",
                      to = "2021-12-31",
                      get = "stock.prices")
@@ -79,7 +79,7 @@ model_alpha
 model_beta
 
 # Cumulative returns ------------------------------------------------------
-wts_tbl = tibble(symbol = tikers,
+wts_tbl = tibble(symbol = tickers,
                  wts = wts)
 
 ret_data = left_join(ret_data, wts_tbl, by='symbol')
@@ -120,3 +120,23 @@ port_cumulative_ret %>%
   scale_y_continuous(breaks = seq(1,2,0.1)) +
   scale_x_date(date_breaks = 'year',
                date_labels = '%Y')
+
+# Benchmark return - SPY --------------------------------------------------
+spy = getSymbols("SPY", from = "2020-01-01", auto.assign = FALSE)
+dret <- dailyReturn(spy)
+pret <- Return.cumulative(dret)
+pret
+plot(spy$SPY.Adjusted)
+
+getSymbols(tickers, from = "2020-01-01")
+
+returns_charts <- function(ticker) {
+  candleChart(ticker)
+  Return.cumulative(dailyReturn(ticker))
+  
+}
+
+
+
+returns_charts(TCHP)
+
