@@ -28,7 +28,7 @@ table(companylist$`Asset Class`)
 
 ## Get ETFS Data from Yahoo Finance
 
-* Define a function to obtain data and cancleChart
+* Define a function to obtain data and candleChart
 ```{r}
 get_data <- function(sector, start_date, selectedStd, selectedRtn){
   sampledStocks <- subset(companylist, `Asset Class` == sector)
@@ -59,7 +59,12 @@ get_data <- function(sector, start_date, selectedStd, selectedRtn){
   
   # produce candleChart for selected stocks
   for (stock in goodCandidate$Symbol) {
-  candleChart(stocksEnv[[stock]], name = stock)
+  # candleChart(stocksEnv[[stock]], name = stock)
+    chartSeries(stocksEnv[[stock]], 
+            theme="white", 
+            name = stock,
+            TA="addVo();addBBands();addRSI(14); 
+            addSMA(20); addSMA(50); addSMA(200)")
   }
   
   goodCandidate
@@ -68,7 +73,7 @@ get_data <- function(sector, start_date, selectedStd, selectedRtn){
 ```
 ## Telecom
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Telecom', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Telecom', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -78,7 +83,7 @@ return_report
 
 ## Consumer Discretionary Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Consumer Discretionary', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Consumer Discretionary', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -87,7 +92,7 @@ return_report
 ```
 ## Consumer Staples  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Consumer Staples', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Consumer Staples', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -96,7 +101,7 @@ return_report
 ```
 ## Energy  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Energy', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Energy', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -105,7 +110,7 @@ return_report
 ```
 ## Equity  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Equity', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Equity', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -116,7 +121,7 @@ return_report
 
 ## Finance  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Financials', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Financials', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -126,7 +131,7 @@ return_report
 
 ## Health Care  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Healthcare', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Healthcare', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -135,7 +140,7 @@ return_report
 ```
 ## Industrials  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Industrials', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Industrials', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -144,7 +149,7 @@ return_report
 ```
 ## Technology  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Technology', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Technology', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -154,7 +159,7 @@ return_report
 
 ## Materials  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Materials', '2021-01-01', 0.05, 0.05)
+return_report <- get_data('Materials', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -164,7 +169,7 @@ return_report
 
 ## Real Estate Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Real Estate', '2021-01-01', 0.05, 0.01)
+return_report <- get_data('Real Estate', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -173,7 +178,7 @@ return_report
 ```
 ## Utilities  Sector
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data('Utilities', '2021-01-01', 0.05, 0.01)
+return_report <- get_data('Utilities', '2021-01-01', 0.15, -0.5)
 ```
 
 ### Return Table for Stocks
