@@ -15,11 +15,15 @@ sampledStocks
 # store data in a new environment
 stocksEnv <- new.env()
 getSymbols(sampledStocks$Symbol, env = stocksEnv, 
-           from = "2020-01-01", src = "yahoo")
+           from = "2021-01-01", src = "yahoo")
 
 
 for (stock in sampledStocks$Symbol) {
-  candleChart(stocksEnv[[stock]], name = stock)
+  chartSeries(stocksEnv[[stock]], 
+              theme="white", 
+              name = stock,
+              TA="addVo();addBBands();addRSI(14); 
+            addSMA(20, col='red'); addSMA(50, col='blue'); addSMA(200, col='black')")
 }
 
 selected50 <- companylist[idx, ]
