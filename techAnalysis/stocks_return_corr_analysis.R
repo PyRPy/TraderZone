@@ -6,6 +6,7 @@ library(quantmod)
 library(PerformanceAnalytics)
 library(PortfolioAnalytics)
 library(corrplot)
+library(ggplot2)
 
 # load data from tickers --------------------------------------------------
 
@@ -157,3 +158,40 @@ table.AnnualizedReturns(ret)
 # Annualized Return           -0.0490 0.0488 0.1197
 # Annualized Std Dev           0.1788 0.1159 0.1272
 # Annualized Sharpe (Rf=0%)   -0.2738 0.4205 0.9414
+
+
+# Compare with S&P500 -----------------------------------------------------
+spy = getSymbols("SPY", from = "2021-01-01", auto.assign = FALSE)
+sp500 <- dailyReturn(spy)
+names(sp500) <- "SP500"
+ret <- cbind(ret, sp500)
+ret <- ret[-1, ]
+
+ret %>%
+  ggplot(aes(x = box,
+             y = SP500)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = 'lm',
+              se = FALSE) +
+  theme_classic() +
+  labs(x = 'S&P500 Returns',
+       y = "Portfolio Returns",
+       title = "Portfolio returns vs S&P 500 returns") +
+  scale_x_continuous(breaks = seq(-0.1,0.1,0.01),
+                     labels = scales::percent) +
+  scale_y_continuous(breaks = seq(-0.1,0.1,0.01),
+                     labels = scales::percent)
+
+# Linear model ------------------------------------------------------------
+model <- lm(box ~ SP500, data = ret)
+model_alpha = model$coefficients[1]
+model_beta = model$coefficients[2]
+
+# portfolio alpha is 
+model_alpha
+
+# portfolio beta is
+model_beta
+
+# annualized performance including S&P500
+table.AnnualizedReturns(ret)
