@@ -37,7 +37,7 @@ table(companylist$`GICS Sector`)
 * Define a function to obtain data and cancleChart for Sub Industries
 
 ```{r}
-get_data_sub <- function(sub, start_date, selectedStd, selectedRtn){
+get_data_sub <- function(sub, start_date){
   sampledStocks <- subset(companylist, `GICS Sector` == sub)
   idx <- sample(nrow(sampledStocks), 5)
   sampledStocks <- sampledStocks[idx, ]
@@ -46,28 +46,8 @@ get_data_sub <- function(sub, start_date, selectedStd, selectedRtn){
   getSymbols(sampledStocks$Symbol, env = stocksEnv, 
            from = start_date, src = "yahoo")
   
-
-  # produce return report
-  # goodCandidate <- data.frame()
-  # 
-  # for (stock in sampledStocks$Symbol) {
-  #   dret <- dailyReturn(stocksEnv[[stock]])
-  #   pret <- Return.cumulative(dret)
-  #   if (sd(dret) < selectedStd && as.numeric(pret) > selectedRtn) {
-  #     tmp <- data.frame(Symbol = stock, 
-  #                       sd = round(sd(dret), 3), 
-  #                       ret = round(as.numeric(pret), 3))
-  #     goodCandidate <- rbind(goodCandidate, tmp)
-  #     
-  #   }
-  # }
-  
-  # check the list
-  # goodCandidate
-  
   # produce candleChart for selected stocks
   for (stock in sampledStocks$Symbol) {
-  # candleChart(stocksEnv[[stock]], name = stock)
     chartSeries(stocksEnv[[stock]], 
             theme="white", 
             name = stock,
@@ -77,15 +57,13 @@ get_data_sub <- function(sub, start_date, selectedStd, selectedRtn){
             addMACD(fast=12,slow=26,signal=9,type='EMA')")
   }
   
-  # goodCandidate
-  
 }
 ```
 
 ```{r}
 for (sub in unique(companylist$`GICS Sector`)) {
   cat(sub, '----- \n')
-  get_data_sub(sub, '2021-01-01', 0.05, -0.5)
+  get_data_sub(sub, "2021-01-01")
   
 }
 ```
