@@ -12,11 +12,13 @@ stocksEnv <- new.env()
 getSymbols(spdr_list, env = stocksEnv, 
            from = "2021-01-01", src = "yahoo")
 
+# brief description of ETF symbols
+description_sectors <- read.csv("sectors_etf.csv")
 
 for (stock in spdr_list) {
   chartSeries(stocksEnv[[stock]], 
               theme="white", 
-              name = stock,
+              name = paste(stock, description_sectors$NAME.[description_sectors$SYMBOL.== stock]),
               TA="addVo();
               addBBands();
               addRSI(14); 
@@ -25,3 +27,5 @@ for (stock in spdr_list) {
               addSMA(200, col='black');
               addMACD(fast=12,slow=26,signal=9,type='EMA')")
 }
+
+
