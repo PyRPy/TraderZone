@@ -10,43 +10,40 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Data from Yahoo Finance
-```{r warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 library(quantmod)
 library(ggplot2)
 library(dplyr)
-library(lubridate)
 library(fpp2)
 ```
 ```{r warning=FALSE}
-stock_list <- c("SPY", "QQQ", "JETS")
+stock_list <- c("SPY", "QQQ")
 getSymbols(stock_list, from = '2021-01-01', src = "yahoo")
-
 ```
-## Define a boxplot function
+
+```{r warning=FALSE}
+# convert the time and data into a dataframe
+stocks_df <- data.frame(Date = index(SPY), 
+                        SPY_Price = as.numeric(Cl(SPY)),
+                        QQQ_Price = as.numeric(Cl(QQQ)))
+names(stocks_df) <- c("Date", "SPY_Price", "QQQ_Price")
+stocks_df$Year_Month <- format(as.Date(stocks_df$Date), "%Y-%m")
+stocks_df$Year_Month <- as.factor(stocks_df$Year_Month)
+head(stocks_df)
+```
+
 ```{r}
-stock_boxplot <- function(stock) {
-  tmp <- Cl(stock)
-  names(tmp) <- "Close"
-  tmp %>% ggplot(aes(x = time(tmp), y = Close, group = month(tmp))) +
-    geom_boxplot() 
-}
+stocks_df %>% ggplot(aes(x = Year_Month, y = SPY_Price, group = Year_Month)) +
+    geom_boxplot()+
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
+    xlab("")+
+    labs(title = "SPY Price Boxplot Monthly")
 ```
 
-
-## Boxplot monthly - SPY
 ```{r}
-stock_boxplot(SPY)
-  
+stocks_df %>% ggplot(aes(x = Year_Month, y = QQQ_Price, group = Year_Month)) +
+    geom_boxplot()+
+    theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
+    xlab("")+
+    labs(title = "QQQ Price Boxplot Monthly")
 ```
-
-## Boxplot monthly - QQQ
-```{r}
-stock_boxplot(QQQ)
-
-```
-
-## Boxplot manthly - JETS
-```{r}
-stock_boxplot(JETS)
-```
-
