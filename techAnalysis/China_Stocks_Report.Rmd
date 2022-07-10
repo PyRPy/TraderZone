@@ -3,8 +3,8 @@ title: "China Stocks Report"
 author: "ETF Researcher"
 date: "March 31, 2021"
 output:
-  word_document: default
   html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +19,10 @@ https://www.investors.com/news/best-chinese-stocks-to-buy/?src=A00220
 library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
+```
 
+## Selected stocks in different sectors
+```{r}
 stocksGeneral <- c("BABA", "JD", "PDD", "TCEHY", "VIPS",
                    "BIDU", "TME", "NTES", "TCOM", "DADA", 
                    "YY", "BEKE", "BILI")
@@ -30,7 +33,8 @@ stocksFin <- c("FUTU", "TIGR", "QFIN")
 
 stocksSolar <- c("DQ", "JKS")
 
-stocksEdu <- c("EDU", "TAL", "YQ", "GSX")
+# stocksEdu <- c("EDU", "TAL", "YQ", "GSX")
+stocksEdu <- c("EDU", "TAL", "YQ") # symbol GSX removed
 
 stocksOther <- c("YSG", "GDS")
 
@@ -80,7 +84,7 @@ get_data <- function(ETFsymbols, start_date, selectedStd, selectedRtn){
 ## General Stocks
 
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data(stocksGeneral, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksGeneral, '2022-01-01', 0.10, -0.5)
 ```
 
 ### Return Table for Stocks
@@ -90,7 +94,7 @@ return_report
 ```
 ## EV Stocks
 ```{r}
-return_report <- get_data(stocksEV, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksEV, '2022-01-01', 0.10, -0.5)
 ```
 
 ### Return Table for EV Stocks
@@ -100,7 +104,7 @@ return_report
 
 ## Financial Stocks
 ```{r}
-return_report <- get_data(stocksFin, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksFin, '2022-01-01', 0.10, -0.5)
 ```
 
 ## Return for Financial Stocks
@@ -111,7 +115,7 @@ return_report
 ## Solar Stocks
 
 ```{r}
-return_report <- get_data(stocksSolar, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksSolar, '2022-01-01', 0.10, -0.5)
 ```
 
 ## Return for Solar Stocks
@@ -122,7 +126,7 @@ return_report
 ## Education Stocks
 
 ```{r}
-return_report <- get_data(stocksEdu, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksEdu, '2022-01-01', 0.50, -1.5)
 ```
 
 ## Return for Education Stocks
@@ -133,7 +137,7 @@ return_report
 ## Multi Areas Stocks
 
 ```{r}
-return_report <- get_data(stocksOther, '2021-01-01', 0.10, -0.5)
+return_report <- get_data(stocksOther, '2022-01-01', 0.10, -0.5)
 ```
 
 ## Return for Multi-Area Stocks
