@@ -17,8 +17,8 @@ library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
 
-stockSymbols <- c("ARKK", "ARKF", "ARKQ", "PRNT", "ARKW", "ARKG",
-                  "IZRL")
+stockSymbols <- c("ARKK", "ARKF", "ARKQ", "PRNT", "ARKW", 
+                  "ARKG", "ARKX", "CTRU", "IZRL")
 
 ```
 
@@ -63,7 +63,7 @@ get_data <- function(ETFsymbols, start_date, selectedStd, selectedRtn){
 ```
 ## Produce Charts and Return Table
 ```{r message=FALSE, warning=FALSE}
-return_report <- get_data(stockSymbols, '2021-01-01', 0.20, -0.5)
+return_report <- get_data(stockSymbols, '2021-01-01', 0.20, -1.5)
 ```
 
 ### Return Table for Stocks
