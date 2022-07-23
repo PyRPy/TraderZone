@@ -3,8 +3,38 @@
 library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
-companylist <- read_csv("symbols500.csv") # prepared in excel
+library(tidyverse)
+library(rvest)
+
+
+# web scrapping to get SP500 symbols --------------------------------------
+
+# target webpage containing table you need
+url500 <- "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+mytable <- read_html(url500)
+table500 <- html_table(mytable, fill = TRUE)
+
+# first table 
+table500 <- table500[[1]]
+
+# check table content and overview
+head(table500)
+
+# convert to factor from 'character'
+table500$`GICS Sector` <- as.factor(table500$`GICS Sector`)
+
+# show how many companies in each sector (11)
+table500 %>% ggplot(aes(x=`GICS Sector`)) +
+  geom_bar() + 
+  coord_flip() # show text clearly
+
+
+companylist <- table500
+remove(table500)
 head(companylist)
+
+# correct symbol name based on yahoo finance portal
+companylist$Symbol[companylist$Symbol == 'BRK.B'] <- "BRK-B"
 
 total_num_stocks <- nrow(companylist)
 number_stocks <- 50
@@ -12,7 +42,7 @@ GICS_sectors <- unique(companylist$`GICS Sector`)
 idx <- c()
 stocks_sampled_sectors <- data.frame()
 
-# cluster sampling based on sectors, use proportional ratio
+# proportion sampling based on sectors, use proportional ratio
 for (sector in GICS_sectors) {
   company_sectors <- subset(companylist, `GICS Sector`==sector)
   num_sector <- nrow(company_sectors)
@@ -28,7 +58,7 @@ stocks_sampled_sectors
 
 stocksEnv <- new.env()
 getSymbols(stocks_sampled_sectors$Symbol, env = stocksEnv, 
-           from = "2020-01-01", src = "yahoo")
+           from = "2021-01-01", src = "yahoo")
 
 
 # Candle charts for stocks ------------------------------------------------
