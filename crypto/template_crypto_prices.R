@@ -23,3 +23,8 @@ chartSeries(BITQ)
 chartSeries(BITS)
 chartSeries(BLOK)
 chartSeries(BLCN)
+
+# Coinbase stock ----------------------------------------------------------
+
+getSymbols("COIN", src="yahoo")
+chartSeries(COIN)
