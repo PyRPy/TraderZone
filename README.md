@@ -6,3 +6,6 @@ stocks_return_corr_analysis.R as part of stocks screening and selecting processe
 
 3/9/2022 
 add portfolio analysis; should remove high correlated stocks in the same partfolio
+
+8/13/2022
+add sentiment and SPY index for comparison and data mining
