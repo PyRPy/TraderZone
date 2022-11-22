@@ -1,0 +1,54 @@
+---
+title: "INTC"
+author: "ETF Researcher"
+date: "November 20, 2022ﬁ"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Read Data for Intel
+```{r message=FALSE, warning=FALSE}
+library(quantmod)
+```
+## Download data
+```{r}
+getSymbols(c("INTC"), from = "2020-01-01")
+```
+
+
+## Long-term trend sicne 2020
+```{r}
+chartSeries(INTC, 
+            theme="white", 
+            TA="addSMA(200); addSMA(50)")
+```
+
+## Trend in last three months
+```{r}
+chartSeries(INTC, 
+            subset = "2022-08-01::",
+            theme="white", 
+            TA="addVo();addBBands();addRSI(14); 
+            addSMA(20); addSMA(50); addSMA(200)")
+```
+
+## There is a stable rebound in INTC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
