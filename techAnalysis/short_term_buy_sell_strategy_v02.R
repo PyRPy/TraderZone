@@ -79,14 +79,25 @@ hist(strategy_table$cum_return)
 
 # select stocks with first drop and then up the next day
 # add 20-day moving average, compare with current close price
-stocks_potentials = subset(strategy_table, 
+stocks_potentials_sma = subset(strategy_table, 
                            cum_return >-0.1 & prob_drop_up >= 0.80 & price_close > SMA20)
+
+stocks_potentials_sma
+
+stocks_potentials = subset(strategy_table, 
+                               cum_return >-0.1 & prob_drop_up >= 0.80)
 
 stocks_potentials
 
+
 # create plots for promising stocks
 for (stock in stocks_potentials$Symbol) {
-  candleChart(data_env[[stock]], name = stock)
+  chartSeries(data_env[[stock]], 
+              theme="white", 
+              name = stock,
+              TA="addSMA(20); addVo();addRSI(14)")
+  
+  #candleChart(data_env[[stock]], name = stock)
 }
 
 # write.csv(stocks_potentials, "stocks_potentials_004.csv")
