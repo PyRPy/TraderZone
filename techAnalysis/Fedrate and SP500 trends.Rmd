@@ -1,0 +1,40 @@
+---
+title: "SP500 and Fedrate trends in parallel.Rmd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data and libraries
+```{r}
+library(quantmod)
+
+# load the fedrate data
+# https://fred.stlouisfed.org/series/DFF
+DFF <- read.csv("DFF.csv")
+DFF$DATE <- as.Date(DFF$DATE)
+```
+
+```{r}
+# get S&P500 index
+getSymbols("SPY", from = "2013-02-23")
+```
+
+```{r fig.height=6}
+par(mfrow = c(2, 1))
+plot(DFF$DATE, DFF$DFF, type = 'l')
+plot(SPY$SPY.Close)
+```
+
+
+## ultra low rates from 2020 helped send stocks prices high
+## recent continued rate hikes tamed stocks price dramatically
+
+
+
+
+
+
+
