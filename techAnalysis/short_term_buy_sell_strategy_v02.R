@@ -3,10 +3,14 @@ library(readr)
 library(quantmod)
 library(PerformanceAnalytics)
 library(dplyr)
+library(lubridate)
 
 companylist <- read_csv("SP500_2023_01.csv") # prepared in excel
 head(companylist)
 stockSymbols <- companylist["Symbol"]
+
+# last 5 months or 100 trading days approximately
+start_date = today() %m-% months(2)
 
 numberStocks <- nrow(stockSymbols)
 
@@ -19,9 +23,12 @@ idx = srs_stocks(50, numberStocks)
 sampledStocks <- stockSymbols[idx, "Symbol"]
 
 tickers = sampledStocks$Symbol
+
+
+# downlaod stocks into a new environment
 data_env = new.env()
 getSymbols(tickers, 
-           from = "2023-01-01", 
+           from = start_date, 
            env = data_env, 
            auto.assign = TRUE)
 
@@ -85,7 +92,7 @@ stocks_potentials_sma = subset(strategy_table,
 stocks_potentials_sma
 
 stocks_potentials = subset(strategy_table, 
-                               cum_return >-0.1 & prob_drop_up >= 0.80)
+                               cum_return >-0.1 & prob_drop_up >= 0.75)
 
 stocks_potentials
 
