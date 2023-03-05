@@ -1,0 +1,50 @@
+---
+title: "SPY"
+output: html_document
+date: "2023-01-13"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Load the data
+```{r}
+library(quantmod)
+```
+
+```{r}
+getSymbols(c("SPY"), from = "2018-01-01")
+```
+
+## Five years trend
+```{r}
+chartSeries(SPY, 
+            subset = "2018-01-01::",
+            theme="white", 
+            TA="addSMA(200)")
+```
+## Trend in the last three months
+```{r}
+chartSeries(SPY, 
+            subset = "2022-10-01::",
+            theme="white", 
+            TA="addVo();addBBands();addRSI(14); 
+            addSMA(20); addSMA(50); addSMA(200)")
+```
+## latest close price 
+```{r}
+tail(SPY$SPY.Close)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

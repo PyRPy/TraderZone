@@ -1,0 +1,44 @@
+---
+title: "crypto check"
+output: html_document
+date: "2022-10-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(quantmod)
+portfolio = c("BTC-USD")
+getSymbols(portfolio, src="yahoo", from="2019-01-01")
+```
+```{r}
+BTC_USD = na.omit(`BTC-USD`)
+```
+
+```{r}
+plot(window(BTC_USD$`BTC-USD.Close`, start = "2022-12-01"),
+     main = "",
+     cex.axis = 0.8)
+```
+
+## bitcoin is struggling to reach higher than $24k
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

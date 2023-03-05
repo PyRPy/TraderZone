@@ -1,0 +1,52 @@
+---
+title: "ARK ETF Report"
+author: "ETF Researcher"
+date: "March 31, 2021"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Read Data for Marijuana ETFs
+```{r message=FALSE, warning=FALSE}
+library(quantmod)
+```
+## Download data
+```{r}
+getSymbols(c("ARKQ"), from = "2020-01-01")
+```
+
+
+## Long-term trend sicne 2020
+```{r}
+chartSeries(ARKQ, 
+            theme="white", 
+            TA="addSMA(200)")
+```
+
+## Trend in last three months
+```{r}
+chartSeries(ARKQ, 
+            subset = "2022-08-01::",
+            theme="white", 
+            TA="addVo();addBBands();addRSI(14); 
+            addSMA(20); addSMA(50); addSMA(200)")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
