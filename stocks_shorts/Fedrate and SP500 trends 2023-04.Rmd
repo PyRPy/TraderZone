@@ -1,0 +1,32 @@
+---
+title: "SP500 and Fedrate trends in parallel.Rmd"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data and libraries
+```{r}
+library(quantmod)
+# load the fedrate data from last ten years
+# https://fred.stlouisfed.org/series/DFF
+DFF <- read.csv("DFF.csv")
+DFF$DATE <- as.Date(DFF$DATE)
+```
+
+```{r}
+# get S&P500 index
+getSymbols("SPY", from = "2013-04-20")
+```
+
+```{r fig.height=6}
+par(mfrow = c(2, 1))
+plot(DFF$DATE, DFF$DFF, type = 'l')
+plot(SPY$SPY.Close)
+```
+
+
+## persistent rate hikes since 2022 tamed down the stocks?
+## do you see the sign of bouncing back in S&P500 index?
