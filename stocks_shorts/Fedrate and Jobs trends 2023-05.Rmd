@@ -1,0 +1,40 @@
+---
+title: "Fedrate and unemployment rate tell different story"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load data and libraries
+```{r}
+# load the fedrate data from last ten years
+# https://fred.stlouisfed.org/series/DFF
+# unemployment rate
+# https://fred.stlouisfed.org/series/UNRATE
+
+DFF <- read.csv("DFF.csv")
+DFF$DATE <- as.Date(DFF$DATE)
+
+UNRATE <- read.csv("UNRATE.csv")
+UNRATE$DATE <- as.Date(UNRATE$DATE)
+```
+```{r}
+# transform daily data to monthly data
+library(lubridate)
+library(dplyr)
+DFF$month <- floor_date(DFF$DATE, "month")
+DFF <- DFF %>% group_by(month) %>% 
+  summarize(mean = mean(DFF))
+```
+
+
+```{r fig.height=6}
+par(mfrow = c(2, 1))
+plot(DFF$month, DFF$mean, type = 'l')
+plot(UNRATE$DATE, UNRATE$UNRATE, type = "l")
+```
+
+## persistent rate hikes since 2022 did not trigger the 
+## increase of the unemployment
