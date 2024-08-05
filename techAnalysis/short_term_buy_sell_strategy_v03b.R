@@ -122,6 +122,10 @@ stocks_potentials = subset(strategy_table,
 
 stocks_potentials
 
+stocks_high_switches <- subset(strategy_table,
+                               cum_return > 0.0 & rate_of_switches > 0.6)
+
+stocks_high_switches
 
 # create plots for promising stocks
 for (stock in stocks_potentials$Symbol) {
