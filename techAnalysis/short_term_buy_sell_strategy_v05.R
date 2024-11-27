@@ -6,7 +6,7 @@ library(dplyr)
 library(lubridate)
 library(TTR)
 
-companylist <- read_csv("SP500_2023_01.csv") # prepared in excel
+companylist <- read_csv("SP500_2024_11.csv") # prepared in excel
 head(companylist)
 stockSymbols <- companylist["Symbol"]
 
@@ -148,6 +148,27 @@ for (stock in rev(stocks_potentials_sma$Symbol)) {
 # write.csv(stocks_potentials, "stocks_potentials_004.csv")
 # write.csv(strategy_table, "strategry_table.csv")
 
+stocks_potentials_sma_switch <- subset(strategy_table,
+                                       cum_return > 0.0 & price_close > SMA20 & sd < 0.015 & rsi < 75 & rate_of_switches > 0.6)
+
+# create plots for promising stocks
+for (stock in rev(stocks_potentials_sma_switch$Symbol)) {
+  chartSeries(data_env[[stock]],
+              theme="white",
+              name = stock,
+              TA="addSMA(20); addSMA(50); addVo();addRSI(14)")
+}
+
+stocks_potentials_sma_switch_low <- subset(strategy_table,
+                                       cum_return > 0.0 & price_close > SMA20 & sd < 0.015 & rsi < 75 & rate_of_switches < 0.4)
+
+# create plots for promising stocks
+for (stock in rev(stocks_potentials_sma_switch_low$Symbol)) {
+  chartSeries(data_env[[stock]],
+              theme="white",
+              name = stock,
+              TA="addSMA(20); addSMA(50); addVo();addRSI(14)")
+}
 # debugging on drops and rises --------------------------------------------
 
 
@@ -158,9 +179,16 @@ chartSeries(SPY,
             name = "SPY",
             TA="addSMA(20); addSMA(50); addVo();addRSI(14)")
 
-getSymbols("HLT",
+getSymbols("NWS",
            from = '2024-01-01')
-chartSeries(HLT,
+chartSeries(NWS,
             theme="white",
             name = "",
-            TA="addSMA(20); addVo();addRSI(14)")
+            TA="addSMA(20); addSMA(50); addVo();addRSI(14)")
+
+getSymbols("PG",
+           from = '2023-01-01')
+chartSeries(PG,
+            theme="white",
+            name = "",
+            TA="addSMA(20); addSMA(50); addVo();addRSI(14)")
