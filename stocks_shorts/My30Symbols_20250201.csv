@@ -1,0 +1,28 @@
+﻿Symbol,Industry,Sector,Index
+FCX,Copper,Basic Materials,S&P500
+CENX,Aluminum,Basic Materials,RUSSELL 2000
+CSTM,Aluminum,Basic Materials,RUSSELL 2000
+KALU,Aluminum,Basic Materials,RUSSELL 2000
+RSG,Waste Management,Industrial,S&P500
+WM,Waste Management,Industrial,S&P500
+CEG ,Utilities,Utilities - Renewables,S&P500
+GEV,Utilities,Utilities - Renewables,S&P500
+NUE,Steel,Basic Materials,S&P500
+STLD,Steel,Basic Materials,S&P500
+UEC,Uranium,Energy,RUSSELL 2000
+BTU,Thermal Coal,Energy,RUSSELL 2000
+CNR,Thermal Coal,Energy,RUSSELL 2000
+HL,Precious Metal & Mining,Basic Materials,RUSSELL 2000
+FSLR,Solar,Technology,S&P500
+ODFL,Trucking,Industrial,S&P500
+APD,Specialty Chemicals,Basic Materials,S&P500
+BXMT,REIT - Mortgage,Real Estate,RUSSELL 2000
+NRG,Independent Power Producers,Utilities ,S&P500
+BKR,Oil & Gas Equipment & Services,Energy,S&P500
+HAL,Oil & Gas Equipment & Services,Energy,S&P500
+SLB,Oil & Gas Equipment & Services,Energy,S&P500
+TPR,Luxury Goods,Consumer Cylical,S&P500
+VLTO,Pollution & Treatment Controls,Industrial,S&P500
+UNP,Railroads,Industrial,S&P500
+BF-B,Beverages-Wineries & Distillreies,Consume Defensive,S&P500
+DE,Farm & Heavy Construction Machinery,Industrial,S&P500
