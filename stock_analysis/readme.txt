@@ -21,7 +21,7 @@ Scalable: Easily add more indicators like RSI, Bollinger Bands, or real-time API
 - pip install -r requirements.txt
 
 #--- main updates and modifications ---#
-- 2/25/2205	add logistic regression to predict next day up / down trend
+- 2/25/2025	add logistic regression to predict next day up / down trend
 		add anomaly detection Isolation Forest to spot 'outliers' in the price trend 
 		update the plotter to highlight the outliers
 
