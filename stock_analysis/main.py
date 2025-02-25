@@ -27,13 +27,23 @@ def main():
     
     # plotter.plot_candlestick_chart(analyzer.data.loc["2024-02-01":"2025-02-10"])
 
-    lstm_forecast_df = analyzer.forecast_lstm(days=5)
-    if lstm_forecast_df is not None:
-        print("\n 5-Day LSTM Stock Price Prediction:")
-        print(lstm_forecast_df)
+    # lstm_forecast_df = analyzer.forecast_lstm(days=5)
+    # if lstm_forecast_df is not None:
+    #     print("\n 5-Day LSTM Stock Price Prediction:")
+    #     print(lstm_forecast_df)
 
-    plotter = StockPlotter()
-    plotter.plot_stock_data(analyzer.data.loc["2024-01-01":"2025-02-21"], forecast_df=lstm_forecast_df)
+    # plotter = StockPlotter()
+    # plotter.plot_stock_data(analyzer.data.loc["2024-01-01":"2025-02-21"], forecast_df=lstm_forecast_df)
+
+    # Predict next day's movement (Up or Down)
+    movement_prediction, accuracy = analyzer.predict_next_day_movement()
+
+    if movement_prediction == 1:
+        print(f"\n Prediction: Stock will go UP tomorrow (Accuracy: {accuracy:.2%})")
+    else:
+        print(f"\n Prediction: Stock will go DOWN tomorrow (Accuracy: {accuracy:.2%})")
+
+
 
 if __name__ == "__main__":
     main()

@@ -6,13 +6,17 @@ from statsmodels.tsa.arima.model import ARIMA
 # add LSTM model from pytorch 
 import torch 
 import torch.nn as nn 
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 import torch
 import torch.nn as nn
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+
+# add logistic regression model
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 class LSTMModel(nn.Module):
     """ PyTorch LSTM Model for Stock Price Forecasting """
@@ -169,3 +173,47 @@ class StockAnalyzer:
         })
 
         return forecast_df
+    
+    def predict_next_day_movement(self):
+        """
+        Uses logistic regression to predict whether the stock will go UP (1) or DOWN (0) the next day.
+        :return: Prediction (1 = UP, 0 = DOWN) and model accuracy
+        """
+        df = self.data.loc["2024-01-01":"2025-02-21"].copy()
+
+        # Create features based on past price movements
+        df["Return"] = df["Close"].pct_change()
+        df["5d_MA"] = df["Close"].rolling(window=5).mean()
+        df["10d_MA"] = df["Close"].rolling(window=10).mean()
+        df["Volatility"] = df["Return"].rolling(window=5).std()
+
+        # Define the target (1 if price goes up, 0 if price goes down)
+        df["Target"] = (df["Close"].shift(-1) > df["Close"]).astype(int)
+
+        df.dropna(inplace=True)  # Remove NaN values
+
+        # Define features and target variable
+        features = ["Return", "5d_MA", "10d_MA", "Volatility"]
+        X = df[features]
+        y = df["Target"]
+
+        # Normalize the data
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+
+        # Split data into train and test sets
+        X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, shuffle=False)
+
+        # Train logistic regression model
+        model = LogisticRegression()
+        model.fit(X_train, y_train)
+
+        # Predict on test data
+        y_pred = model.predict(X_test)
+        accuracy = accuracy_score(y_test, y_pred)
+
+        # Predict next day's movement
+        last_features = X_scaled[-1].reshape(1, -1)
+        next_day_prediction = model.predict(last_features)[0]
+
+        return next_day_prediction, accuracy
