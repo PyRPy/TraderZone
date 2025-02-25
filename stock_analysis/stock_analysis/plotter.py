@@ -45,4 +45,23 @@ class StockPlotter:
         plt.grid(True)
 
         plt.show()
+    @staticmethod
+    def plot_trend_with_anomalies(data):
+        """
+        Plots the stock price trend along with detected anomalies.
+        :param data: DataFrame containing 'Close' prices and 'Anomaly' labels (-1 for anomalies, 1 for normal)
+        """
+        plt.figure(figsize=(12, 6))
+        plt.plot(data.index, data['Close'], label='Stock Price', color='blue', linewidth=2)
+        
+        # Plot anomalies
+        anomalies = data[data['Anomaly'] == -1]
+        plt.scatter(anomalies.index, anomalies['Close'], color='red', label='Anomalies', marker='o', s=80)
+        
+        plt.xlabel('Date')
+        plt.ylabel('Stock Price')
+        plt.title('Stock Price Trend with Anomalies')
+        plt.legend()
+        plt.grid()
+        plt.show()
 

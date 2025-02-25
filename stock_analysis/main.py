@@ -43,6 +43,16 @@ def main():
     else:
         print(f"\n Prediction: Stock will go DOWN tomorrow (Accuracy: {accuracy:.2%})")
 
+    # Detect anomalies in stock trends
+    anomaly_df = analyzer.detect_anomalies()
+
+    print("\n Anomaly Detection Results:")
+    print(anomaly_df[anomaly_df["Anomaly"] == -1])  # Show only detected anomalies
+    print(anomaly_df.head())
+
+    # Plot anomalies alongside stock prices
+    plotter = StockPlotter()
+    plotter.plot_trend_with_anomalies(anomaly_df)
 
 
 if __name__ == "__main__":

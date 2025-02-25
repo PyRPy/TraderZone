@@ -18,6 +18,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+# add anomaly detection 
+from sklearn.ensemble import IsolationForest
+
 class LSTMModel(nn.Module):
     """ PyTorch LSTM Model for Stock Price Forecasting """
     def __init__(self, input_size=1, hidden_size=50, num_layers=2, output_size=1):
@@ -217,3 +220,26 @@ class StockAnalyzer:
         next_day_prediction = model.predict(last_features)[0]
 
         return next_day_prediction, accuracy
+    
+    def detect_anomalies(self):
+        """
+        Uses Isolation Forest to detect anomalies in stock price trends.
+        :return: DataFrame with anomaly labels (1 = Normal, -1 = Anomaly)
+        """
+        df = self.data.loc["2024-01-01":"2025-02-21"].copy()
+        
+        # Create features based on price changes and volatility
+        df["Return"] = df["Close"].pct_change()
+        df["5d_MA"] = df["Close"].rolling(window=5).mean()
+        df["10d_MA"] = df["Close"].rolling(window=10).mean()
+        df["Volatility"] = df["Return"].rolling(window=5).std()
+        
+        df.dropna(inplace=True)  # Remove NaN values
+        
+        features = ["Return", "5d_MA", "10d_MA", "Volatility"]
+        
+        # Train Isolation Forest for anomaly detection
+        model = IsolationForest(n_estimators=100, contamination=0.02, random_state=42)
+        df["Anomaly"] = model.fit_predict(df[features])  # 1 = Normal, -1 = Anomaly
+
+        return df[["Close", "Anomaly"]]
